@@ -1,0 +1,14 @@
+name: crypto
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - ipykernel
+  - numpy
+  - matplotlib
+  - pandas
+  - geopandas
+  - folium
+  - plotly
+  - cryptography
