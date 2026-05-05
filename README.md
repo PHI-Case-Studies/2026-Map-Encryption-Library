@@ -23,6 +23,8 @@ conda activate crypto
 jupyter lab 01-introduction.ipynb
 ```
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/PHI-Case-Studies/2026-Map-Encryption-Library/HEAD)
+
 ## Files
 
 | File | Description |
