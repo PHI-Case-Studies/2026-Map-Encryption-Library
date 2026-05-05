@@ -12,3 +12,5 @@ dependencies:
   - folium
   - plotly
   - cryptography
+  - scipy
+  - scikit-learn

@@ -10,7 +10,10 @@ Security properties
 - Scheme version field in every record (forward-compatible migration)
 """
 
-__all__ = ["MapEncryption", "SchemeParams", "SCHEME_VERSION"]
+__all__ = [
+    "MapEncryption", "SchemeParams", "SCHEME_VERSION",
+    "haversine_m", "edd", "mnnd", "dbscan_f1",
+]
 
 import hashlib
 import hmac
@@ -338,3 +341,103 @@ class MapEncryption:
     @property
     def params(self) -> SchemeParams:
         return self._params
+
+
+# ---------------------------------------------------------------------------
+# Evaluation metrics  (require scipy / scikit-learn — optional dependencies)
+# ---------------------------------------------------------------------------
+
+def haversine_m(lat1: float, lon1: float, lat2: float, lon2: float) -> float:
+    """Great-circle distance in metres between two WGS84 coordinate pairs."""
+    phi1, phi2 = math.radians(lat1), math.radians(lat2)
+    dphi = math.radians(lat2 - lat1)
+    dlambda = math.radians(lon2 - lon1)
+    a = math.sin(dphi / 2) ** 2 + math.cos(phi1) * math.cos(phi2) * math.sin(dlambda / 2) ** 2
+    return 2.0 * _R_EARTH * math.asin(math.sqrt(a))
+
+
+def edd(true_coords: list, display_coords: list) -> float:
+    """Expected Displacement Distance: mean haversine distance (metres) between
+    true and display coordinate pairs (same-order sequences of (lat, lon) tuples).
+    """
+    if len(true_coords) != len(display_coords):
+        raise ValueError("true_coords and display_coords must have the same length")
+    return sum(
+        haversine_m(t[0], t[1], d[0], d[1])
+        for t, d in zip(true_coords, display_coords)
+    ) / len(true_coords)
+
+
+def mnnd(coords: list) -> float:
+    """Mean Nearest-Neighbour Distance (metres) for a set of (lat, lon) coordinates.
+
+    Projects to Web Mercator for distance computation. Requires scipy.
+    """
+    try:
+        import numpy as np
+        from scipy.spatial import cKDTree
+    except ImportError as exc:
+        raise ImportError("mnnd() requires scipy: pip install scipy") from exc
+    xy = np.array([_project(lat, lon) for lat, lon in coords])
+    tree = cKDTree(xy)
+    dists, _ = tree.query(xy, k=2)   # k=2: [self-distance=0, nearest neighbour]
+    return float(dists[:, 1].mean())
+
+
+def dbscan_f1(
+    true_coords: list,
+    display_coords: list,
+    eps_m: float = 400.0,
+    min_samples: int = 5,
+) -> Dict[str, Any]:
+    """DBSCAN cluster-detection evaluation: precision, recall, and F1.
+
+    Applies DBSCAN (eps in metres, Web Mercator coordinates) to both the true and
+    display coordinate sets. Cluster quality is measured by pairwise same-cluster
+    agreement (Rand-index style): precision is the fraction of display same-cluster
+    pairs that are also true same-cluster pairs; recall is the fraction of true
+    same-cluster pairs recovered in the display clustering. Noise points (label -1)
+    are excluded from all pair counts.
+
+    Requires scikit-learn and numpy.
+    """
+    try:
+        import numpy as np
+        from sklearn.cluster import DBSCAN
+    except ImportError as exc:
+        raise ImportError(
+            "dbscan_f1() requires scikit-learn: pip install scikit-learn"
+        ) from exc
+
+    true_xy = np.array([_project(lat, lon) for lat, lon in true_coords])
+    disp_xy = np.array([_project(lat, lon) for lat, lon in display_coords])
+
+    true_labels = DBSCAN(eps=eps_m, min_samples=min_samples).fit_predict(true_xy)
+    disp_labels = DBSCAN(eps=eps_m, min_samples=min_samples).fit_predict(disp_xy)
+
+    tl = true_labels[:, None]
+    dl = disp_labels[:, None]
+    true_same = (tl == tl.T) & (tl != -1) & (tl.T != -1)
+    disp_same = (dl == dl.T) & (dl != -1) & (dl.T != -1)
+
+    upper = np.triu(np.ones(true_same.shape, dtype=bool), k=1)
+    tp = int(np.sum(true_same & disp_same & upper))
+    fp = int(np.sum(~true_same & disp_same & upper))
+    fn = int(np.sum(true_same & ~disp_same & upper))
+
+    precision = tp / (tp + fp) if (tp + fp) > 0 else 0.0
+    recall    = tp / (tp + fn) if (tp + fn) > 0 else 0.0
+    f1        = (
+        2.0 * precision * recall / (precision + recall)
+        if (precision + recall) > 0 else 0.0
+    )
+
+    return {
+        "precision":          round(precision, 4),
+        "recall":             round(recall, 4),
+        "f1":                 round(f1, 4),
+        "n_true_clusters":    int(len(set(true_labels)  - {-1})),
+        "n_display_clusters": int(len(set(disp_labels)  - {-1})),
+        "n_noise_true":       int(np.sum(true_labels  == -1)),
+        "n_noise_display":    int(np.sum(disp_labels  == -1)),
+    }
