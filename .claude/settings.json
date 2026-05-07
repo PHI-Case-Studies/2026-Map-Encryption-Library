@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh api *)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/PHI-Case-Studies/1854-Cholera-Outbreak-London-Basic/master/resources/cholera_deaths.csv\" -o /Users/hermantolentino/workspace/2026-Map-Encryption-Library/data/cholera_deaths.csv)",
+      "Bash(curl -sL \"https://raw.githubusercontent.com/PHI-Case-Studies/1854-Cholera-Outbreak-London-Basic/master/resources/pumps.csv\" -o /Users/hermantolentino/workspace/2026-Map-Encryption-Library/data/pumps.csv)",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 _fix_refs.py)"
+    ]
+  }
+}
