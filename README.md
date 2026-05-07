@@ -29,6 +29,10 @@ jupyter lab 01-introduction.ipynb
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/PHI-Case-Studies/2026-Map-Encryption-Library/HEAD)
 
+> **Binder note:** Open and run **one notebook at a time**. Keeping multiple
+> notebooks active simultaneously will exhaust Binder's memory limit and crash
+> the session. Shut down a notebook's kernel before opening the next one.
+
 ## Files
 
 | File | Description |
@@ -49,14 +53,13 @@ jupyter lab 01-introduction.ipynb
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
 | `environment.yml` | Conda environment specification |
 | `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
-| `docs/` | Reference PDFs: Lin (2023) geo-indistinguishable masking; Geoprivacy ethics |
 
 ## Dependencies
 
 - **Python 3.10**
 - **numpy** — numerical arrays
 - **matplotlib** — NB01 only (side-by-side scatter)
-- **plotly** — interactive charts and tables in NB02–NB10
+- **plotly** — interactive charts in NB02–NB10
 - **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08
 - **pandas** — CSV loading and DataFrame construction
 - **scipy** — nearest-neighbour distance (MNND) in NB08
@@ -73,9 +76,4 @@ and standards compliance.
 > `hashlib.blake2s` in the Python standard library — no external dependency
 > is required for the non-AEAD cryptographic operations.
 
-## References
-
-- Snow, J. (1855). *On the Mode of Communication of Cholera* (2nd ed.). Churchill, London.
-- Lin, J. (2023). Geo-indistinguishable masking: enhancing privacy protection in spatial point mapping. See `docs/`.
-- Luby, M., & Rackoff, C. (1988). How to construct pseudorandom permutations from pseudorandom functions. *SIAM J. Comput., 17*(2), 373–386.
-- Nir, Y., & Langley, A. (2018). ChaCha20 and Poly1305 for IETF Protocols. RFC 8439.
+Each notebook ends with a References section citing the sources relevant to that topic.
