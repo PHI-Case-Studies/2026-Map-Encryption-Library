@@ -5,6 +5,10 @@ hides both tile identity (via a Feistel PRP) and sub-tile precision (via
 ChaCha20-Poly1305 AEAD), while enabling a display tier to render jittered
 map pins without ever decrypting precise GPS coordinates.
 
+All spatial examples use the **1854 Soho cholera outbreak dataset** (John Snow):
+250 death locations and 8 water pump locations from `data/cholera_deaths.csv`
+and `data/pumps.csv`.
+
 ## How It Works
 
 - **Project** — Convert (lat, lon) to Web Mercator metres (NB02)
@@ -30,25 +34,35 @@ jupyter lab 01-introduction.ipynb
 | File | Description |
 |------|-------------|
 | `map_encryption.py` | Core library: all crypto logic, public API and private helpers |
-| `01-introduction.ipynb` | Problem statement, pipeline overview, matplotlib demo |
-| `02-coordinate-projection.ipynb` | Web Mercator derivation, scale distortion, 8-city round-trip |
+| `01-introduction.ipynb` | Problem statement, pipeline overview, 250 cholera death locations |
+| `02-coordinate-projection.ipynb` | Web Mercator derivation, scale distortion, 8-pump round-trip |
 | `03-grid-snapping-and-prp.ipynb` | Grid quantisation, Feistel PRP walkthrough, rejection sampling |
 | `04-residual-encryption-aead.ipynb` | ChaCha20-Poly1305, AD construction, tamper-detection demo |
 | `05-key-derivation-and-display-jitter.ipynb` | HKDF-style KDF, jitter mechanics, key privilege separation |
-| `06-complete-pipeline.ipynb` | Public-API end-to-end demo with 500 points and failure modes |
+| `06-complete-pipeline.ipynb` | Public-API end-to-end with 250 cholera records and failure modes |
 | `07-security-and-limitations.ipynb` | Threat model, 5 limitations, improvement directions |
+| `08-evaluation.ipynb` | EDD, MNND, DBSCAN cluster fidelity metrics (Lin 2023) on cholera data |
+| `09-ct-resid-externalization.ipynb` | Split storage architecture, AEAD-PRP mutual dependency |
+| `10-geoprivacy-ethics.ipynb` | Six ethical tensions, three public health scenarios, principle mapping |
+| `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
+| `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
 | `environment.yml` | Conda environment specification |
+| `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
+| `docs/` | Reference PDFs: Lin (2023) geo-indistinguishable masking; Geoprivacy ethics |
 
 ## Dependencies
 
 - **Python 3.10**
-- **numpy** — numerical arrays for synthetic point generation
+- **numpy** — numerical arrays
 - **matplotlib** — NB01 only (side-by-side scatter)
-- **plotly** — interactive charts and maps in NB02–NB07
+- **plotly** — interactive charts and tables in NB02–NB10
+- **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08
+- **pandas** — CSV loading and DataFrame construction
+- **scipy** — nearest-neighbour distance (MNND) in NB08
+- **scikit-learn** — DBSCAN cluster evaluation in NB08 and NB10
 - **cryptography** (preferred) — ChaCha20-Poly1305 AEAD via
   `cryptography.hazmat.primitives.ciphers.aead`
-- **pandas** — DataFrame construction for Plotly inputs
 
 **Fallback:** If `cryptography` is not installed, the library falls back to
 XOR + HMAC-SHA256 using only the Python standard library. All security
@@ -58,3 +72,10 @@ and standards compliance.
 > **Note:** BLAKE2s is used throughout (key derivation, PRF, jitter) via
 > `hashlib.blake2s` in the Python standard library — no external dependency
 > is required for the non-AEAD cryptographic operations.
+
+## References
+
+- Snow, J. (1855). *On the Mode of Communication of Cholera* (2nd ed.). Churchill, London.
+- Lin, J. (2023). Geo-indistinguishable masking: enhancing privacy protection in spatial point mapping. See `docs/`.
+- Luby, M., & Rackoff, C. (1988). How to construct pseudorandom permutations from pseudorandom functions. *SIAM J. Comput., 17*(2), 373–386.
+- Nir, Y., & Langley, A. (2018). ChaCha20 and Poly1305 for IETF Protocols. RFC 8439.
