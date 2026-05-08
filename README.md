@@ -89,6 +89,8 @@ jupyter lab 01-introduction.ipynb
 | `09-ct-resid-externalization.ipynb` | Split storage architecture, AEAD-PRP mutual dependency |
 | `10-geoprivacy-ethics.ipynb` | Six ethical tensions, three public health scenarios, principle mapping |
 | `11-dggs-tile-identifiers.ipynb` | H3 hexagonal DGGS as alternative tile identifier; equal-area cells, multi-resolution privacy |
+| `12-advanced-evaluation-part1.ipynb` | Ripley's K, Moran's I, Getis-Ord Gi* — point pattern and autocorrelation analysis |
+| `13-advanced-evaluation-part2.ipynb` | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
@@ -107,6 +109,7 @@ jupyter lab 01-introduction.ipynb
 - **scipy** — nearest-neighbour distance (MNND) in NB08
 - **scikit-learn** — DBSCAN cluster evaluation in NB08 and NB10
 - **h3-py** — H3 hexagonal DGGS cell encoding in NB11
+- **libpysal / esda / pointpats** — spatial weights, Moran's I, Getis-Ord Gi*, Ripley's K in NB12–NB13
 - **cryptography** (preferred) — ChaCha20-Poly1305 AEAD via
   `cryptography.hazmat.primitives.ciphers.aead`
 

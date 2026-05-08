@@ -1,6 +1,6 @@
 # Map Encryption Library — Notebook Guide
 
-This is an eleven-notebook series that walks through the four-step geographic
+This is a thirteen-notebook series that walks through the four-step geographic
 coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
 its privacy properties, examines the ethical tensions that govern when and
 how to deploy it, and explores DGGS as an alternative spatial reference layer.
@@ -26,6 +26,8 @@ and `data/pumps.csv`.
 | 09 | ct_resid Externalization | Split storage architecture, AEAD-PRP mutual dependency | 04–06 |
 | 10 | Ethical Perspectives on Geoprivacy | Six tensions, three public health scenarios, principle mapping | 01–08 |
 | 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | 03–04 |
+| 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | 08 |
+| 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
 
 ## Per-Notebook Descriptions
 
@@ -113,9 +115,32 @@ and plots Web Mercator area distortion vs latitude to motivate the equal-area
 advantage of DGGS. Closes with a side-by-side comparison table and adapted
 pipeline description.
 
+**12 — Advanced Spatial Privacy Evaluation Part 1**
+Introduces second-generation spatial structure metrics alongside NB08's
+first-generation EDD/MNND/DBSCAN. Three comparison scenarios are used
+throughout: original coordinates, jitter-only displacement (±62.5 m,
+no PRP shuffle), and full-pipeline display (PRP + jitter). Ripley's K
+and the L-function quantify clustering intensity across 10–300 m scales;
+the AUC-L scalar summarises clustering preservation. Moran's I tests
+global spatial autocorrelation of death counts with 400 m distance-band
+weights. Getis-Ord Gi* identifies persistent local hotspots; a Folium map
+colours each death location by hotspot status (persists, lost, or gained).
+
+**13 — Advanced Spatial Privacy Evaluation Part 2**
+Continues with surface-level and system-level metrics. Part 1 compares
+KDE density surfaces for original vs jitter-only using Pearson r and
+KL divergence on a 60 × 60 grid over the Soho study area. Part 2 sweeps
+`jitter_max_frac` from 0 to 0.5 and plots how the AUC-L clustering index
+degrades. Part 3 builds the privacy–utility frontier: EDD on the x-axis
+vs KDE Pearson r and AUC-L ratio on the y-axis, showing that the default
+`jitter_max_frac=0.25` sits near the Pareto-optimal knee. Part 4 examines
+three failure cases where metrics give conflicting verdicts: co-location
+inflating Moran's I, boundary records lost from Gi* hotspots, and scale-
+specific K-ring sensitivity missed by the AUC aggregate.
+
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11
+**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical

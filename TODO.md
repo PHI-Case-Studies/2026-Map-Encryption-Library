@@ -30,37 +30,20 @@ Replacing Web Mercator squares with equal-area hierarchical cells.
 
 ---
 
-## NB12 — Advanced Spatial Privacy Evaluation *(planned)*
+## NB12 — Advanced Spatial Privacy Evaluation Part 1 *(done)*
 
-NB08 introduces first-generation metrics (EDD, MNND, DBSCAN fidelity).
-NB12 extends to second-generation spatial structure metrics.
+- [x] Ripley's K / L-function — clustering across 10–300 m scales
+- [x] AUC-L scalar summary of clustering preservation
+- [x] Moran's I — global spatial autocorrelation of death counts
+- [x] Getis-Ord Gi* — local hotspot persistence; Folium map
+- [x] Three-scenario framework: original / jitter-only / full pipeline
 
-### 12.1 Why spatial statistics matter
-- Beyond point displacement: topology, clustering, autocorrelation, epidemiologic interpretation
+## NB13 — Advanced Spatial Privacy Evaluation Part 2 *(done)*
 
-### 12.2 Ripley's K
-- Measures clustering across scales
-- Directly relevant for outbreak maps and density preservation
-
-### 12.3 Moran's I
-- Spatial autocorrelation
-- Tests whether encrypted maps preserve broad spatial trends
-
-### 12.4 Getis-Ord Gi*
-- Hotspot persistence before and after encryption + jitter
-
-### 12.5 KDE fidelity
-- Compare original vs protected kernel density surfaces
-
-### 12.6 Multi-scale evaluation
-- Critical for DGGS systems with hierarchical resolutions
-
-### 12.7 Privacy–utility frontier
-- Visualise the tradeoff curve across jitter and bin-size parameter sweeps
-- Strongest conceptual section: ties NB08 metrics to NB10 ethics
-
-### 12.8 Failure cases
-- Scenarios where metrics disagree with each other
+- [x] KDE surface fidelity (Pearson r, KL divergence) on 60×60 grid
+- [x] Multi-scale Ripley's K sweep over jitter_max_frac 0–0.5
+- [x] Privacy–utility frontier curve (EDD vs KDE r and AUC-L)
+- [x] Failure cases: co-location, boundary records, K-ring sensitivity
 
 ---
 

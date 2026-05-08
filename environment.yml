@@ -15,3 +15,6 @@ dependencies:
   - scipy
   - scikit-learn
   - h3-py
+  - libpysal
+  - esda
+  - pointpats
