@@ -57,7 +57,7 @@ Shows semantic security of ChaCha20-Poly1305: same plaintext, three nonces, thre
 completely different ciphertexts. Explains the length-prefixed associated data
 construction and why it prevents boundary-shift attacks. Runs six tamper scenarios
 (flipped bit, changed nonce, wrong AD, wrong key) using a Broadwick Street pump
-record and presents results in a Plotly table.
+record and presents results in a markdown table.
 
 **05 — Key Derivation and Display Jitter**
 Explains domain separation in the BLAKE2s-based KDF: why three independent subkeys
@@ -129,14 +129,15 @@ colours each death location by hotspot status (persists, lost, or gained).
 **13 — Advanced Spatial Privacy Evaluation Part 2**
 Continues with surface-level and system-level metrics. Part 1 compares
 KDE density surfaces for original vs jitter-only using Pearson r and
-KL divergence on a 60 × 60 grid over the Soho study area. Part 2 sweeps
-`jitter_max_frac` from 0 to 0.5 and plots how the AUC-L clustering index
-degrades. Part 3 builds the privacy–utility frontier: EDD on the x-axis
-vs KDE Pearson r and AUC-L ratio on the y-axis, showing that the default
-`jitter_max_frac=0.25` sits near the Pareto-optimal knee. Part 4 examines
-three failure cases where metrics give conflicting verdicts: co-location
-inflating Moran's I, boundary records lost from Gi* hotspots, and scale-
-specific K-ring sensitivity missed by the AUC aggregate.
+KL divergence on a 60 × 60 grid, with a linked `folium.plugins.DualMap`
+(pan and zoom synchronised between panels) replacing the static heatmap.
+Part 2 sweeps `jitter_max_frac` from 0 to 0.5 and plots how the AUC-L
+clustering index degrades. Part 3 builds the privacy–utility frontier:
+EDD on the x-axis vs KDE Pearson r and AUC-L ratio on the y-axis, showing
+that `jitter_max_frac=0.25` sits near the Pareto-optimal knee. Part 4
+examines three failure cases where metrics give conflicting verdicts:
+co-location inflating Moran's I, boundary records lost from Gi* hotspots,
+and scale-specific K-ring sensitivity missed by the AUC aggregate.
 
 ## Reading Paths
 
@@ -153,3 +154,8 @@ split storage dependency chain (NB09), and DGGS cell ID permutation (NB11).
 **Ethics / policy readers:** 07 + 08 + 10
 Threat model and limitations (NB07), quantitative privacy evaluation (NB08),
 and ethical tensions with scenario matrices (NB10).
+
+**Spatial evaluation readers:** 08 → 12 → 13
+First-generation metrics EDD/MNND/DBSCAN (NB08), second-generation point
+pattern and autocorrelation metrics (NB12), density surface fidelity and
+the privacy–utility frontier (NB13).

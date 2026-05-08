@@ -13,7 +13,7 @@ graduate-level modules that can be read independently or in sequence.
 
 ---
 
-## NB11 — DGGS and Advanced Spatial Binning *(in progress)*
+## NB11 — DGGS and Advanced Spatial Binning *(done)*
 
 Replacing Web Mercator squares with equal-area hierarchical cells.
 
@@ -47,17 +47,16 @@ Replacing Web Mercator squares with equal-area hierarchical cells.
 
 ---
 
-## NB13–NB20 — Future extensions *(ideas)*
+## NB14–NB20 — Future extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB13 | Trajectory privacy — sequences of locations, linkage attacks |
-| NB14 | Semantic geoprivacy — place type inference, POI linkage |
-| NB15 | GeoSPARQL and encrypted spatial RDF |
-| NB16 | Privacy-preserving vector tiles |
-| NB17 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
-| NB18 | Federated geospatial analytics |
-| NB19 | Spatial ontology and policy enforcement |
+| NB14 | Trajectory privacy — sequences of locations, linkage attacks |
+| NB15 | Semantic geoprivacy — place type inference, POI linkage |
+| NB16 | GeoSPARQL and encrypted spatial RDF |
+| NB17 | Privacy-preserving vector tiles |
+| NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
+| NB19 | Federated geospatial analytics |
 | NB20 | Trusted execution environments for geospatial systems |
 
 ---

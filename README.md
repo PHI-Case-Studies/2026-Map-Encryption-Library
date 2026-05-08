@@ -94,7 +94,7 @@ jupyter lab 01-introduction.ipynb
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
-| `TODO.md` | Research roadmap: planned NB12 (advanced evaluation) and future extensions NB13–NB20 |
+| `TODO.md` | Research roadmap: NB11–NB13 status and future extensions NB14–NB20 |
 | `environment.yml` | Conda environment specification |
 | `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
 
@@ -103,10 +103,10 @@ jupyter lab 01-introduction.ipynb
 - **Python 3.10**
 - **numpy** — numerical arrays
 - **matplotlib** — NB01 only (side-by-side scatter)
-- **plotly** — interactive charts in NB02–NB10
-- **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08
+- **plotly** — interactive charts in NB02–NB13
+- **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08, NB11–NB13
 - **pandas** — CSV loading and DataFrame construction
-- **scipy** — nearest-neighbour distance (MNND) in NB08
+- **scipy** — nearest-neighbour distance (MNND) in NB08; KDE in NB13
 - **scikit-learn** — DBSCAN cluster evaluation in NB08 and NB10
 - **h3-py** — H3 hexagonal DGGS cell encoding in NB11
 - **libpysal / esda / pointpats** — spatial weights, Moran's I, Getis-Ord Gi*, Ripley's K in NB12–NB13
