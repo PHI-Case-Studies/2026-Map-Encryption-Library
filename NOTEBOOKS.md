@@ -1,10 +1,11 @@
 # Map Encryption Library — Notebook Guide
 
-This is a ten-notebook series that walks through the four-step geographic
+This is an eleven-notebook series that walks through the four-step geographic
 coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
-its privacy properties, and examines the ethical tensions that govern when and
-how to deploy it. Each notebook is self-contained: import only what you need
-for that topic, run cells in order, and you will have a working demonstration.
+its privacy properties, examines the ethical tensions that govern when and
+how to deploy it, and explores DGGS as an alternative spatial reference layer.
+Each notebook is self-contained: import only what you need for that topic, run
+cells in order, and you will have a working demonstration.
 
 All spatial examples use the **1854 Soho cholera outbreak dataset** (John Snow):
 250 death locations and 8 water pump locations from `data/cholera_deaths.csv`
@@ -24,6 +25,7 @@ and `data/pumps.csv`.
 | 08 | Evaluation: EDD, MNND, Cluster Fidelity | Privacy metric suite from Lin (2023), jitter sweep | 05–06 |
 | 09 | ct_resid Externalization | Split storage architecture, AEAD-PRP mutual dependency | 04–06 |
 | 10 | Ethical Perspectives on Geoprivacy | Six tensions, three public health scenarios, principle mapping | 01–08 |
+| 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | 03–04 |
 
 ## Per-Notebook Descriptions
 
@@ -100,17 +102,28 @@ environmental mapping) demonstrate that the same scheme may be ethical in one
 context and inappropriate in another. Closes with an eight-principle table
 mapping each ethical concept to a specific scheme property.
 
+**11 — DGGS as Tile Identifiers**
+Introduces H3 (Uber's hexagonal Discrete Global Grid System) as an alternative
+to Web Mercator squares for the snapping step. Encodes all 250 cholera death
+locations to H3 resolution 9 cells (~201 m average edge), visualises cell
+boundaries on a Folium map, and demonstrates multi-resolution privacy (resolutions
+7–9 nested at Broadwick Street pump). Shows how a keyed PRF can shuffle 64-bit
+H3 cell IDs analogously to the current Feistel PRP, computes intra-cell residuals,
+and plots Web Mercator area distortion vs latitude to motivate the equal-area
+advantage of DGGS. Closes with a side-by-side comparison table and adapted
+pipeline description.
+
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10
+**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical
 deployment considerations without deep-diving into cryptographic internals.
 
-**Crypto readers (primitives focus):** 03 + 04 + 09
-Grid snapping and Feistel PRP (NB03), AEAD and tamper detection (NB04), and
-split storage dependency chain (NB09) cover the cryptographic layers in depth.
+**Crypto readers (primitives focus):** 03 + 04 + 09 + 11
+Grid snapping and Feistel PRP (NB03), AEAD and tamper detection (NB04),
+split storage dependency chain (NB09), and DGGS cell ID permutation (NB11).
 
 **Ethics / policy readers:** 07 + 08 + 10
 Threat model and limitations (NB07), quantitative privacy evaluation (NB08),

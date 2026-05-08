@@ -88,6 +88,7 @@ jupyter lab 01-introduction.ipynb
 | `08-evaluation.ipynb` | EDD, MNND, DBSCAN cluster fidelity metrics (Lin 2023) on cholera data |
 | `09-ct-resid-externalization.ipynb` | Split storage architecture, AEAD-PRP mutual dependency |
 | `10-geoprivacy-ethics.ipynb` | Six ethical tensions, three public health scenarios, principle mapping |
+| `11-dggs-tile-identifiers.ipynb` | H3 hexagonal DGGS as alternative tile identifier; equal-area cells, multi-resolution privacy |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
@@ -104,6 +105,7 @@ jupyter lab 01-introduction.ipynb
 - **pandas** — CSV loading and DataFrame construction
 - **scipy** — nearest-neighbour distance (MNND) in NB08
 - **scikit-learn** — DBSCAN cluster evaluation in NB08 and NB10
+- **h3-py** — H3 hexagonal DGGS cell encoding in NB11
 - **cryptography** (preferred) — ChaCha20-Poly1305 AEAD via
   `cryptography.hazmat.primitives.ciphers.aead`
 
