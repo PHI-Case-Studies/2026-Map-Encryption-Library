@@ -92,6 +92,7 @@ jupyter lab 01-introduction.ipynb
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
+| `TODO.md` | Research roadmap: planned NB12 (advanced evaluation) and future extensions NB13–NB20 |
 | `environment.yml` | Conda environment specification |
 | `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
 
