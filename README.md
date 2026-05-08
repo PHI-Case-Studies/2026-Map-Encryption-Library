@@ -26,28 +26,28 @@ flowchart TD
 
     IN["(lat, lon)\noriginal GPS coordinate"]:::coord
 
-    subgraph ENC["encode()  ·  prp_key + aead_key"]
+    subgraph ENC["encode()  ·  NB01 / NB06  ·  prp_key + aead_key"]
         direction TB
-        E1["① Project\n_project() — Web Mercator\n(lat, lon) → (x, y) metres"]
-        E2["② Snap to 250 m tile\nqx = round(x/250)   qy = round(y/250)\nrx = x − qx·250      ry = y − qy·250"]
-        E3["③ Feistel PRP\n_prp_encrypt(qx, qy, prp_key)\n→ shuffled (qxp, qyp)"]
-        E4["④ AEAD encrypt residual\n_AEAD(aead_key).encrypt(nonce, (rx, ry), AD)\nChaCha20-Poly1305  →  ct_resid"]
+        E1["① Project  ·  NB02\n_project() — Web Mercator\n(lat, lon) → (x, y) metres"]
+        E2["② Snap to 250 m tile  ·  NB03\nqx = round(x/250)   qy = round(y/250)\nrx = x − qx·250      ry = y − qy·250"]
+        E3["③ Feistel PRP  ·  NB03\n_prp_encrypt(qx, qy, prp_key)\n→ shuffled (qxp, qyp)"]
+        E4["④ AEAD encrypt residual  ·  NB04\n_AEAD(aead_key).encrypt(nonce, (rx, ry), AD)\nChaCha20-Poly1305  →  ct_resid"]
     end
 
     REC[["Encrypted record\nqxp · qyp · nonce · ct_resid · tweak · version"]]:::record
 
-    subgraph DIS["render_coordinates()  ·  jitter_key only"]
+    subgraph DIS["render_coordinates()  ·  NB05  ·  jitter_key only"]
         direction TB
-        D1["BLAKE2s jitter\nseed = (qxp, qyp, nonce)   key = jitter_key\noffset ≤ ±62.5 m per axis"]
+        D1["BLAKE2s jitter  ·  NB05\nseed = (qxp, qyp, nonce)   key = jitter_key\noffset ≤ ±62.5 m per axis"]
         D2["Display pin\napproximate position only"]:::coord
     end
 
-    subgraph DEC["decode()  ·  prp_key + aead_key"]
+    subgraph DEC["decode()  ·  NB06  ·  prp_key + aead_key"]
         direction TB
-        F1["⑤ Feistel PRP⁻¹\n_prp_decrypt(qxp, qyp, prp_key)\n→ original (qx, qy)"]
-        F2["⑥ AEAD decrypt + verify\n_AEAD(aead_key).decrypt(nonce, ct_resid, AD)\nreturns None if tag fails  →  (rx, ry)"]
-        F3["⑦ Reconstruct metres\nx = qx·250 + rx\ny = qy·250 + ry"]
-        F4["⑧ Unproject\n_unproject() — Web Mercator\n(x, y) metres → (lat, lon)"]
+        F1["⑤ Feistel PRP⁻¹  ·  NB06\n_prp_decrypt(qxp, qyp, prp_key)\n→ original (qx, qy)"]
+        F2["⑥ AEAD decrypt + verify  ·  NB06\n_AEAD(aead_key).decrypt(nonce, ct_resid, AD)\nreturns None if tag fails  →  (rx, ry)"]
+        F3["⑦ Reconstruct metres  ·  NB06\nx = qx·250 + rx\ny = qy·250 + ry"]
+        F4["⑧ Unproject  ·  NB06\n_unproject() — Web Mercator\n(x, y) metres → (lat, lon)"]
     end
 
     OUT["(lat, lon)\nexact — lossless round-trip"]:::coord
