@@ -28,6 +28,7 @@ and `data/pumps.csv`.
 | 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | 03–04 |
 | 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | 08 |
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
+| 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
 
 ## Per-Notebook Descriptions
 
@@ -125,6 +126,21 @@ the AUC-L scalar summarises clustering preservation. Moran's I tests
 global spatial autocorrelation of death counts with 400 m distance-band
 weights. Getis-Ord Gi* identifies persistent local hotspots; a Folium map
 colours each death location by hotspot status (persists, lost, or gained).
+
+**14 — Cholera Dataset Augmentation**
+Documents the three spatial and demographic layers constructed from Snow's
+original 250-location dataset. Part 1 presents OSM building footprints as a
+1854 proxy, with a rationale based on Soho's Georgian/Victorian building stock
+and acknowledged limitations. Part 2 shows the spatial snapping procedure that
+moves 131 street-side death points into the nearest building interior (median
+displacement 3.5 m, max 7.4 m using Shapely `nearest_points` + 1 m inward
+nudge). Part 3 documents the synthetic demographic generation: date of death
+from Snow's (1855) daily fatal-attack table (peak Sep 2: 143 deaths, pump
+handle removed Sep 8), age from Farr's (1854) Registrar General age-stratified
+cholera mortality table (0–4: 32 %, 60+: 9 %), and sex by uniform Bernoulli.
+Closes with a data provenance notes section containing verifiable primary
+sources, inference logic, caveats about synthetic attributes, and references
+to re-identification literature (Sweeney 2002; El Emam et al. 2011).
 
 **13 — Advanced Spatial Privacy Evaluation Part 2**
 Continues with surface-level and system-level metrics. Part 1 compares

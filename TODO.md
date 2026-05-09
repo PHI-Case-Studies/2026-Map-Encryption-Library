@@ -47,14 +47,29 @@ Replacing Web Mercator squares with equal-area hierarchical cells.
 
 ---
 
-## NB14–NB20 — Future extensions *(ideas)*
+## NB14 — Cholera Dataset Augmentation *(done)*
+
+Spatial and demographic enrichment of Snow's 250-location dataset.
+
+- [x] OSM building footprints as 1854 proxy (2,112 polygons, Overpass API)
+- [x] Spatial snapping: 131 street-side death points → nearest building interior
+      (Shapely nearest_points + 1 m inward nudge; median 3.5 m, max 7.4 m)
+- [x] Synthetic demographics: date of death (Snow 1855 daily table),
+      age (Farr 1854 Registrar General), sex (Bernoulli 0.5)
+- [x] Data provenance notes with verifiable primary sources and re-ID literature
+
+**Output files:** `data/soho_1854_buildings.geojson`,
+`data/cholera_deaths_snapped.csv`, `data/cholera_deaths_individual.csv`
+
+---
+
+## NB15–NB20 — Future extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB14 | Trajectory privacy — sequences of locations, linkage attacks |
-| NB15 | Semantic geoprivacy — place type inference, POI linkage |
-| NB16 | GeoSPARQL and encrypted spatial RDF |
-| NB17 | Privacy-preserving vector tiles |
+| NB15 | Infectious disease scenario — household inference attacks using NB14 layers |
+| NB16 | Substance use / environmental scenario — SAMHSA / EPA TRI data |
+| NB17 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
 | NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
 | NB19 | Federated geospatial analytics |
 | NB20 | Trusted execution environments for geospatial systems |

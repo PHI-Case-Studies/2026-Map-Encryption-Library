@@ -91,7 +91,11 @@ jupyter lab 01-introduction.ipynb
 | `11-dggs-tile-identifiers.ipynb` | H3 hexagonal DGGS as alternative tile identifier; equal-area cells, multi-resolution privacy |
 | `12-advanced-evaluation-part1.ipynb` | Ripley's K, Moran's I, Getis-Ord Gi* — point pattern and autocorrelation analysis |
 | `13-advanced-evaluation-part2.ipynb` | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases |
+| `14-cholera-dataset-augmentation.ipynb` | Building footprints, spatial snapping, synthetic demographics; full data provenance and sources |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
+| `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
+| `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |
+| `data/soho_1854_buildings.geojson` | 2,112 current OSM building footprints for the Soho study area (used as spatial proxy for 1854 buildings) |
 | `data/pumps.csv` | 8 water pump locations used in Snow's investigation |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
 | `TODO.md` | Research roadmap: NB11–NB13 status and future extensions NB14–NB20 |
