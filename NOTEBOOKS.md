@@ -1,6 +1,6 @@
 # Map Encryption Library — Notebook Guide
 
-This is a thirteen-notebook series that walks through the four-step geographic
+This is a fifteen-notebook series that walks through the four-step geographic
 coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
 its privacy properties, examines the ethical tensions that govern when and
 how to deploy it, and explores DGGS as an alternative spatial reference layer.
@@ -29,6 +29,7 @@ and `data/pumps.csv`.
 | 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | 08 |
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
+| 15 | Substance Use Scenario | Synthetic Philadelphia overdose dataset; 250 m vs 500 m bins; k-anonymity; suppression rule; Scenario B ethics | 06, 10, 14 |
 
 ## Per-Notebook Descriptions
 
@@ -158,9 +159,26 @@ examines three failure cases where metrics give conflicting verdicts:
 co-location inflating Moran's I, boundary records lost from Gi* hotspots,
 and scale-specific K-ring sensitivity missed by the AUC aggregate.
 
+**15 — Substance Use Scenario**
+Applies the map encryption pipeline to Scenario B from NB10: substance use
+and overdose data for a stigmatised population. Generates a synthetic dataset
+of 516 fatal overdose incidents across six Philadelphia ZIP codes (2022),
+parameterised from the Philadelphia Department of Public Health CHART Vol. 8
+No. 3 report. Part 1 shows the geographic distribution and substance
+breakdown. Part 2 encodes all records at 250 m resolution, computes the
+k-anonymity distribution across tiles, and visualises re-identifiable
+singleton tiles on an interactive Folium map. Part 3 re-encodes at 500 m
+with a k < 5 suppression rule; a side-by-side Plotly chart shows how the
+tile distribution shifts right under larger bins. Part 4 presents a
+privacy–utility summary table (unique tiles, singleton share, suppression
+rate). Part 5 discusses the three dominant ethical tensions for Scenario B —
+utility vs. disclosure risk, equity vs. efficiency, and stewardship vs.
+capability — and closes with an implementation checklist for deployments
+involving stigmatised populations.
+
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13
+**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical

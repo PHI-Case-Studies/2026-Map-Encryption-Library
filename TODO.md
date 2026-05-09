@@ -63,16 +63,31 @@ Spatial and demographic enrichment of Snow's 250-location dataset.
 
 ---
 
-## NB15–NB20 — Future extensions *(ideas)*
+## NB15 — Substance Use Scenario *(done)*
+
+Scenario B from NB10: applying the pipeline to stigmatised overdose data.
+
+- [x] Synthetic dataset: 516 incidents across 6 Philadelphia ZIP codes (2022)
+      parameterised from Philadelphia DPH CHART Vol. 8 No. 3
+- [x] Figure 15a: geographic distribution coloured by substance type
+- [x] 250 m encoding + k-anonymity tile distribution (Figure 15b, 15c)
+- [x] 500 m encoding + k < 5 suppression (Figure 15d, 15e)
+- [x] Table 15a: privacy–utility comparison (unique tiles, singleton %, suppression %)
+- [x] Ethical framework: 3 dominant tensions, implementation checklist
+
+**Data files:** `data/phila_zipcodes.geojson`
+
+---
+
+## NB16–NB20 — Future extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB15 | Infectious disease scenario — household inference attacks using NB14 layers |
-| NB16 | Substance use / environmental scenario — SAMHSA / EPA TRI data |
-| NB17 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
-| NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
-| NB19 | Federated geospatial analytics |
-| NB20 | Trusted execution environments for geospatial systems |
+| NB16 | Infectious disease scenario — household inference attacks using NB14 layers |
+| NB17 | Environmental scenario — EPA TRI / industrial facility proximity |
+| NB18 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
+| NB19 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
+| NB20 | Federated geospatial analytics |
 
 ---
 
