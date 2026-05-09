@@ -2,8 +2,9 @@
 
 This is a fifteen-notebook series that walks through the four-step geographic
 coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
-its privacy properties, examines the ethical tensions that govern when and
-how to deploy it, and explores DGGS as an alternative spatial reference layer.
+its privacy properties, examines the ethical tensions that govern when and how
+to deploy it, explores DGGS as an alternative spatial reference layer, and
+constructs augmented research datasets for three public health scenarios.
 Each notebook is self-contained: import only what you need for that topic, run
 cells in order, and you will have a working demonstration.
 
@@ -29,7 +30,7 @@ and `data/pumps.csv`.
 | 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | 08 |
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
-| 15 | Substance Use Scenario | Synthetic Philadelphia overdose dataset; 250 m vs 500 m bins; k-anonymity; suppression rule; Scenario B ethics | 06, 10, 14 |
+| 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 
 ## Per-Notebook Descriptions
 
@@ -159,22 +160,21 @@ examines three failure cases where metrics give conflicting verdicts:
 co-location inflating Moran's I, boundary records lost from Gi* hotspots,
 and scale-specific K-ring sensitivity missed by the AUC aggregate.
 
-**15 — Substance Use Scenario**
-Applies the map encryption pipeline to Scenario B from NB10: substance use
-and overdose data for a stigmatised population. Generates a synthetic dataset
-of 516 fatal overdose incidents across six Philadelphia ZIP codes (2022),
-parameterised from the Philadelphia Department of Public Health CHART Vol. 8
-No. 3 report. Part 1 shows the geographic distribution and substance
-breakdown. Part 2 encodes all records at 250 m resolution, computes the
-k-anonymity distribution across tiles, and visualises re-identifiable
-singleton tiles on an interactive Folium map. Part 3 re-encodes at 500 m
-with a k < 5 suppression rule; a side-by-side Plotly chart shows how the
-tile distribution shifts right under larger bins. Part 4 presents a
-privacy–utility summary table (unique tiles, singleton share, suppression
-rate). Part 5 discusses the three dominant ethical tensions for Scenario B —
-utility vs. disclosure risk, equity vs. efficiency, and stewardship vs.
-capability — and closes with an implementation checklist for deployments
-involving stigmatised populations.
+**15 — Data Setup: Substance Use Scenario**
+Constructs the three-layer research dataset for Philadelphia overdose data,
+applying the same augmentation pattern as NB14 but for Scenario B (substance
+use / stigmatised population). Part 1 generates a synthetic dataset of 516
+fatal overdose incidents across six Philadelphia ZIP codes (2022), parameterised
+from the Philadelphia Department of Public Health CHART Vol. 8 No. 3 report,
+and maps the geographic distribution by substance type (Figure 15a). Part 2
+fetches OSM building footprints for the six-ZIP study area (108,183 polygons)
+via the Overpass API and snaps all 516 synthetic incident points to the nearest
+building interior using Shapely `nearest_points` (median displacement 6.1 m,
+max 882.9 m); outputs `data/phila_buildings.geojson` and
+`data/phila_overdose_snapped.csv`. Part 3 retrieves 2022 ACS 5-year estimates
+for all six ZIP codes (B01003, B02001, B03003, B17001, B19013) and presents
+racial/ethnic composition and poverty rates (Figure 15c, Table 15a): all six
+ZIPs are majority-minority with poverty rates between 28 % and 40 %.
 
 ## Reading Paths
 
@@ -196,3 +196,8 @@ and ethical tensions with scenario matrices (NB10).
 First-generation metrics EDD/MNND/DBSCAN (NB08), second-generation point
 pattern and autocorrelation metrics (NB12), density surface fidelity and
 the privacy–utility frontier (NB13).
+
+**Data augmentation readers:** 14 → 15 → 16 *(NB16 in progress)*
+Dataset construction pattern: building footprints, spatial snapping, and
+demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
+and Houston environmental burden (NB16).

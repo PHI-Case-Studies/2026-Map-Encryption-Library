@@ -63,31 +63,51 @@ Spatial and demographic enrichment of Snow's 250-location dataset.
 
 ---
 
-## NB15 — Substance Use Scenario *(done)*
+## NB15 — Data Setup: Substance Use Scenario *(done)*
 
-Scenario B from NB10: applying the pipeline to stigmatised overdose data.
+Three-layer dataset construction for Philadelphia overdose data (Scenario B from NB10).
+Parallels NB14 but for a stigmatised population with equity analysis.
 
 - [x] Synthetic dataset: 516 incidents across 6 Philadelphia ZIP codes (2022)
       parameterised from Philadelphia DPH CHART Vol. 8 No. 3
 - [x] Figure 15a: geographic distribution coloured by substance type
-- [x] 250 m encoding + k-anonymity tile distribution (Figure 15b, 15c)
-- [x] 500 m encoding + k < 5 suppression (Figure 15d, 15e)
-- [x] Table 15a: privacy–utility comparison (unique tiles, singleton %, suppression %)
-- [x] Ethical framework: 3 dominant tensions, implementation checklist
+- [x] Part 2: OSM building footprints via Overpass (108,183 polygons within study area)
+- [x] Spatial snapping: 368 street-side points → nearest building interior
+      (Shapely nearest_points + 1 m inward nudge; median 6.1 m displacement)
+- [x] Figure 15b: Folium map — footprints + original/snapped layers
+- [x] Part 3: ACS 2022 demographics (B01003/B02001/B03003/B17001/B19013 for 6 ZIPs)
+- [x] Figure 15c: racial/ethnic composition + poverty bar chart
+- [x] Table 15a: demographics by ZIP code
 
-**Data files:** `data/phila_zipcodes.geojson`
+**Data files:** `data/phila_zipcodes.geojson`, `data/phila_buildings.geojson`,
+`data/phila_overdose_snapped.csv`
 
 ---
 
-## NB16–NB20 — Future extensions *(ideas)*
+## NB16 — Data Setup: Environmental Scenario *(planned)*
+
+Houston / Harris County — TRI industrial facilities + residential proximity.
+
+- [ ] Curated TRI 2022 dataset: ~20 major Ship Channel facilities with coordinates
+- [ ] 7 target ZIP codes: 77029, 77020, 77015, 77011, 77012, 77023, 77026
+- [ ] OSM building footprints for study area (Overpass)
+- [ ] Synthetic respiratory/asthma incident dataset parameterised from Harris County
+      health data
+- [ ] Spatial snapping to buildings
+- [ ] ACS demographics for 7 ZIPs
+- [ ] Figure 16a: facility locations + study area map
+- [ ] Figure 16b: demographic composition (majority Hispanic / low-income)
+
+---
+
+## NB17–NB20 — Future extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB16 | Infectious disease scenario — household inference attacks using NB14 layers |
-| NB17 | Environmental scenario — EPA TRI / industrial facility proximity |
-| NB18 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
-| NB19 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
-| NB20 | Federated geospatial analytics |
+| NB17 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
+| NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
+| NB19 | Federated geospatial analytics |
+| NB20 | Cross-scenario privacy–utility evaluation |
 
 ---
 
