@@ -130,9 +130,12 @@ colours each death location by hotspot status (persists, lost, or gained).
 Continues with surface-level and system-level metrics. Part 1 compares
 KDE density surfaces for original vs jitter-only using Pearson r and
 KL divergence on a 60 × 60 grid, with a linked `folium.plugins.DualMap`
-(pan and zoom synchronised between panels) replacing the static heatmap.
-Part 2 sweeps `jitter_max_frac` from 0 to 0.5 and plots how the AUC-L
-clustering index degrades. Part 3 builds the privacy–utility frontier:
+(pan and zoom synchronised between panels) using stable georeferenced
+ImageOverlay rather than screen-pixel HeatMap. Part 2 sweeps
+`jitter_max_frac` from 0 to 0.5 and presents two views: Figure 13b
+(single Monte Carlo draw, showing inherent noise in the AUC-L estimate)
+and Figure 13c (20-draw average with ±1 std band, revealing the true
+monotone decay). Part 3 builds the privacy–utility frontier (Figure 13d):
 EDD on the x-axis vs KDE Pearson r and AUC-L ratio on the y-axis, showing
 that `jitter_max_frac=0.25` sits near the Pareto-optimal knee. Part 4
 examines three failure cases where metrics give conflicting verdicts:
