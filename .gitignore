@@ -3,3 +3,6 @@ __pycache__/
 .claude/
 .ipynb_checkpoints/
 *.DS_Store
+data/SnowGIS_SHP/
+data/SnowGIS_SHP.zip
+data/__MACOSX/
