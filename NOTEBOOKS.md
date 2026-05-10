@@ -1,10 +1,11 @@
 # Map Encryption Library — Notebook Guide
 
-This is a sixteen-notebook series that walks through the four-step geographic
-coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
+This is a seventeen-notebook series that walks through the four-step geographic
+coordinate encryption pipeline implemented in `map_encryption/`, evaluates
 its privacy properties, examines the ethical tensions that govern when and how
-to deploy it, explores DGGS as an alternative spatial reference layer, and
-constructs augmented research datasets for three public health scenarios.
+to deploy it, explores DGGS as an alternative spatial reference layer,
+constructs augmented research datasets for three public health scenarios, and
+runs adversarial re-identification experiments against all three.
 Each notebook is self-contained: import only what you need for that topic, run
 cells in order, and you will have a working demonstration.
 
@@ -32,6 +33,7 @@ and `data/pumps.csv`.
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
 | 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 | 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
+| 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | 14–16 |
 
 ## Per-Notebook Descriptions
 
@@ -194,9 +196,24 @@ racial/ethnic composition and poverty rates (Figure 16c, Table 16a): all seven
 ZIPs are majority-Hispanic environmental-justice communities with poverty rates
 between 18 % and 32 %.
 
+**17 — Adversarial Experiments**
+Runs three classes of re-identification attack against the three public health scenario
+datasets (cholera, Philadelphia overdose, Houston environmental), comparing jitter-only
+geomasking with the full encryption pipeline. Part 1 measures k-anonymity under
+progressively finer quasi-identifier subsets (sex/age/date for cholera;
+ZIP/substance/age for Philadelphia; ZIP/symptom/age for Houston), finding that fine QI
+combinations already create k = 1 records independently of location (cholera 12.3 %,
+Philadelphia 4.5 %, Houston 1.5 %). Part 2 runs the nearest-record spatial attack:
+under jitter-only the attacker recovers the true snapped building with high success
+for spread-out scenarios (Philadelphia 86.6 %, Houston 90.5 %) but lower success in
+dense Soho (cholera 10.0 %); the full pipeline collapses all three to ≈ 0 %. Part 3
+runs the compound geographic-proximity + QI attack with a 500 m radius: jitter-only
+allows 31.2 % (Philadelphia) and 47.7 % (Houston) unique matches; the full pipeline
+neutralises this attack entirely across all scenarios.
+
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16
+**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical
@@ -219,3 +236,8 @@ the privacy–utility frontier (NB13).
 Dataset construction pattern: building footprints, spatial snapping, and
 demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
 and Houston environmental burden (NB16).
+
+**Adversarial / security readers:** 07 → 17
+Threat model and pipeline limitations (NB07), then empirical re-identification
+experiments across all three public health scenarios using quasi-identifier,
+spatial nearest-record, and compound attacks (NB17).

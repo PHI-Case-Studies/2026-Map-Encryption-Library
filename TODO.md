@@ -104,11 +104,27 @@ Houston Ship Channel — TRI industrial facilities + residential proximity.
 
 ---
 
-## NB17–NB20 — Future extensions *(ideas)*
+## NB17 — Adversarial Experiments *(done)*
+
+Three re-identification attacks across all three public health scenarios.
+
+- [x] 17.1 Adversary model (QI-only, spatial, compound)
+- [x] 17.2 Quasi-identifier k-anonymity: three QI levels per scenario; Table 17a
+- [x] 17.3 Figure 17a: k=1 fraction by scenario and QI granularity
+- [x] 17.4 Nearest-record spatial attack: jitter-only vs full pipeline; Figure 17b
+- [x] 17.5 Compound geographic-proximity + QI attack; Figure 17c
+- [x] 17.6 Attack summary table (Table 17b) and conclusions
+
+**Key findings:** Full pipeline reduces spatial re-ID from 10–90 % (jitter-only) to ≈ 0 %;
+compound attack from 31–48 % (jitter-only) to ≈ 0 %; QI-only attack unchanged (pipeline
+does not encrypt metadata — requires separate QI generalisation).
+
+---
+
+## NB18–NB20 — Future extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB17 | Adversarial experiments — linkage, re-identification, quasi-identifier attacks |
 | NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
 | NB19 | Federated geospatial analytics |
 | NB20 | Cross-scenario privacy–utility evaluation |
