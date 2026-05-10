@@ -122,7 +122,8 @@ stress-tested.
 | `16-houston-environmental-scenario.ipynb` | Curated TRI 2022 facility dataset; synthetic respiratory incidents; OSM building footprints + spatial snapping; ACS 2022 demographic context for seven Houston Ship Channel ZIP codes |
 | `17-adversarial-experiments.ipynb` | QI-only, nearest-record spatial, and compound geographic+QI re-identification attacks across all three scenarios; jitter-only vs full pipeline |
 | `18-formal-threat-model.ipynb` | Four adversary capability tiers, trust boundaries, AEAD-PRP key dependency demo, access-pattern side channel, formal security definitions |
-| `19-baseline-comparison.ipynb` | Empirical comparison of seven geoprivacy mechanisms on EDD, AUC-L, spatial attack, and compound attack; privacy-utility frontier |
+| `19-gaussian-laplace-perturbation.ipynb` | Gaussian perturbation (Rayleigh distribution) and planar Laplace geo-indistinguishability (Andrés et al. 2013); epsilon vs EDD; three-way comparison |
+| `20-baseline-comparison.ipynb` | Empirical comparison of seven geoprivacy mechanisms on EDD, AUC-L, spatial attack, and compound attack; privacy-utility frontier |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
 | `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |

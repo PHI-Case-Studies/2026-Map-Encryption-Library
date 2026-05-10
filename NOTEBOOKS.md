@@ -1,11 +1,12 @@
 # Map Encryption Library — Notebook Guide
 
-This is a twenty-three-notebook series spanning a Module 0 on pre-cryptographic
+This is a twenty-four-notebook series spanning a Module 0 on pre-cryptographic
 geoprivacy approaches, the four-step geographic coordinate encryption pipeline
 implemented in `map_encryption/`, privacy evaluation, ethical analysis, DGGS
 alternative spatial indexing, augmented public health datasets, adversarial
-re-identification experiments, a formal threat model, and an empirical baseline
-comparison against established geoprivacy mechanisms.
+re-identification experiments, a formal threat model, demonstrations of Gaussian
+and Laplace geo-indistinguishability mechanisms, and an empirical baseline
+comparison across seven geographic privacy mechanisms.
 Each notebook is self-contained: import only what you need for that topic, run
 cells in order, and you will have a working demonstration.
 
@@ -39,7 +40,8 @@ and `data/pumps.csv`.
 | 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 | 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | 14–16 |
 | 18 | Formal Threat Model | Adversary capability tiers, trust boundaries, key access/leakage channels, access-pattern side channel, formal security definitions | 04–09 |
-| 19 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | 08, 12–13, 17 |
+| 19 | Gaussian and Laplace Mechanisms | Gaussian perturbation (Rayleigh displacement), planar Laplace geo-indistinguishability (Andrés et al. 2013), epsilon vs EDD, three-way comparison | 05 |
+| 20 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | 08, 12–13, 17, 19 |
 
 ## Per-Notebook Descriptions
 
@@ -264,7 +266,26 @@ formal tiers: nearest-record spatial and compound attacks are Tier 1 (display-ti
 and fail because PRP globally disperses display coordinates; QI-only attacks are
 outside the scheme's scope.
 
-**19 — Baseline Comparison**
+**19 — Gaussian Perturbation and Laplace Geo-Indistinguishability**
+Introduces two alternative perturbation mechanisms from the geoprivacy literature
+and demonstrates them on the 489-individual Soho cholera dataset. Part 1 covers
+Gaussian perturbation: independent N(0, sigma) noise per coordinate axis produces
+displacement magnitudes that follow a Rayleigh distribution (E[r] = sigma * sqrt(pi/2));
+a displacement histogram with Rayleigh theoretical fit and an EDD vs sigma parameter
+sweep confirm the linear relationship. Part 2 covers the planar Laplace
+geo-indistinguishability mechanism (Andrés et al. 2013, DOI: 10.1145/2508859.2516735):
+displacement is sampled in polar coordinates with radius r ~ Gamma(2, 1/epsilon) and
+uniform bearing, providing a formal epsilon-geo-indistinguishability privacy guarantee
+(E[r] = 2/epsilon metres). Displacement histogram with Gamma(2, 1/epsilon) theoretical
+fit and EDD vs 1/epsilon parameter sweep are shown. Part 3 compares all three
+perturbation approaches (uniform jitter, Gaussian, planar Laplace) at matched expected
+displacement, showing that Laplace has the heaviest tail (most extreme outliers at the
+same mean displacement). A summary table of EDD, median, 95th-percentile, and maximum
+displacement closes the notebook. Neither Gaussian nor Laplace destroys spatial
+clustering structure; both remain vulnerable to spatial re-identification attacks,
+as quantified in NB20.
+
+**20 — Baseline Comparison**
 Positions the map encryption pipeline in the geoprivacy literature by empirically
 comparing it against six other mechanisms on the 489-individual Soho cholera dataset.
 Part 1 applies all seven mechanisms (uniform jitter +/-62.5 m, Gaussian sigma=45 m,
@@ -284,7 +305,7 @@ deterministic and observable without keys, as formalised in NB18).
 
 ## Reading Paths
 
-**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19
+**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20
 
 **Geoprivacy primer (Module 0 only):** 00 → 00a → 00b → 00c
 Pre-cryptographic approaches — donut geomasking (NB00a), re-identification
@@ -312,7 +333,8 @@ Dataset construction pattern: building footprints, spatial snapping, and
 demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
 and Houston environmental burden (NB16).
 
-**Adversarial / security readers:** 07 → 17 → 18 → 19
+**Adversarial / security readers:** 07 → 17 → 18 → 19 → 20
 Threat model and limitations (NB07), empirical re-identification experiments
 (NB17), formal adversary capability tiers and security definitions (NB18),
-and comparative positioning against seven geoprivacy mechanisms (NB19).
+Gaussian and Laplace mechanism demonstrations (NB19), and comparative
+positioning against seven geoprivacy mechanisms (NB20).

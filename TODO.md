@@ -9,7 +9,7 @@
 | System implications | NB06–NB10 | Full pipeline, security, evaluation, split storage, ethics |
 | Research extensions | NB11–NB13 | Advanced geospatial architecture and evaluation |
 | Scenario datasets | NB14–NB16 | Cholera augmentation, Philadelphia, Houston |
-| Adversarial + formal | NB17–NB19 | Re-ID attacks, formal threat model, baseline comparison |
+| Adversarial + formal | NB17–NB20 | Re-ID attacks, formal threat model, Gaussian/Laplace mechanisms, baseline comparison |
 
 NB01–NB10 form a coherent minimal complete system. NB11 onward are
 graduate-level modules that can be read independently or in sequence.
@@ -171,14 +171,34 @@ model to scope them correctly and avoid over- or under-stating security guarante
 
 ---
 
-## NB19 — Baseline Comparison *(done)*
+## NB19 — Gaussian and Laplace Mechanisms *(done)*
+
+Demonstrates Gaussian perturbation and planar Laplace geo-indistinguishability on the
+489-individual Soho cholera dataset, providing the conceptual and mathematical foundation
+used in NB20's baseline comparison.
+
+- [x] Gaussian perturbation: Rayleigh displacement distribution, EDD = sigma * sqrt(pi/2), EDD vs sigma sweep
+- [x] Planar Laplace (Andrés et al. 2013): r ~ Gamma(2, 1/epsilon), E[r] = 2/epsilon, EDD vs 1/epsilon sweep
+- [x] Three-way comparison: uniform jitter vs Gaussian vs Laplace at matched EDD (~55-60 m)
+- [x] Summary table: EDD, median, 95th-percentile, max displacement per mechanism
+
+**Key findings:**
+- Laplace has heavier tails than Gaussian at same mean displacement (higher 95th-percentile)
+- Uniform jitter is hard-bounded at J*sqrt(2); Gaussian and Laplace are unbounded
+- Neither Gaussian nor Laplace destroys spatial clustering — both remain in Soho area
+- Planar Laplace provides formal epsilon-geo-indistinguishability guarantee; Gaussian does not
+
+---
+
+## NB20 — Baseline Comparison *(done)*
 
 The repository cited geo-indistinguishability and related mechanisms but did not
-compare them empirically against the custom PRP+AEAD+jitter pipeline.
+compare them empirically against the custom PRP+AEAD+jitter pipeline. Laplace
+mechanism uses the proper planar Laplace from NB19 (epsilon=1/30 per m, E[r]=60 m).
 
 - [x] Random uniform jitter (current jitter-only baseline, +/-62.5 m)
 - [x] Gaussian perturbation (sigma=45 m per axis)
-- [x] Laplace mechanism (geo-indistinguishability, scale=45 m per axis)
+- [x] Planar Laplace geo-indistinguishability (epsilon=1/30 per m, E[r]=60 m, NB19)
 - [x] Spatial cloaking (k=15 nearest-neighbour centroid)
 - [x] H3 hex-grid aggregation (resolution 9, from NB11/geoprivacy package)
 - [x] Donut geomasking (band 50-125 m, from geoprivacy package)
@@ -197,12 +217,12 @@ custom pipeline without empirical positioning against the established literature
 
 ---
 
-## NB20–NB21 — Further extensions *(ideas)*
+## NB21–NB22 — Further extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB20 | Differential privacy hybrids — Laplace/Gaussian mechanisms as complement to AEAD |
-| NB21 | Federated geospatial analytics |
+| NB21 | Differential privacy hybrids — combining planar Laplace (NB19) with the PRP+AEAD pipeline |
+| NB22 | Federated geospatial analytics |
 
 ---
 
