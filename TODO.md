@@ -7,7 +7,9 @@
 | Prior art (Module 0) | NB00–NB00c | Donut masking, H3 hex-grid binning |
 | Core mechanisms | NB01–NB05 | Projection, quantisation, PRP, AEAD, jitter |
 | System implications | NB06–NB10 | Full pipeline, security, evaluation, split storage, ethics |
-| Research extensions | NB11+ | Advanced geospatial architecture and evaluation |
+| Research extensions | NB11–NB13 | Advanced geospatial architecture and evaluation |
+| Scenario datasets | NB14–NB16 | Cholera augmentation, Philadelphia, Houston |
+| Adversarial + formal | NB17–NB19 | Re-ID attacks, formal threat model, baseline comparison |
 
 NB01–NB10 form a coherent minimal complete system. NB11 onward are
 graduate-level modules that can be read independently or in sequence.
@@ -146,16 +148,22 @@ does not encrypt metadata — requires separate QI generalisation).
 
 ---
 
-## NB18 — Formal Threat Model *(planned)*
+## NB18 — Formal Threat Model *(done)*
 
-NB07 provides a structured but informal threat model. NB18 should formalise it:
+NB07 provides a structured but informal threat model. NB18 formalises it:
 
-- [ ] Adversary capability tiers: external observer, partial-key insider, full-key compromise
-- [ ] Trust boundaries: what each pipeline layer protects and what it explicitly does not
-- [ ] Key access and leakage channels: what an attacker with only qxp/qyp can infer
-- [ ] Access-pattern leakage: what repeated queries to the display tier reveal over time
-- [ ] Formal security definitions appropriate for the PRP+AEAD construction
-- [ ] Mapping of NB17 empirical attack results onto the formal tiers
+- [x] Adversary capability tiers: external observer (Tier 0), display-tier operator (Tier 1), decode-tier operator (Tier 2), full-key compromise (Tier 3)
+- [x] Trust boundaries: what each pipeline layer protects and what it explicitly does not
+- [x] Key access and leakage channels: `_AEAD.decrypt()` returns None on wrong AD; correct AD requires prp_key to compute (qx, qy)
+- [x] Access-pattern leakage: same (lat, lon) → same (qxp, qyp); tile frequency observable without keys
+- [x] Formal security definitions: IND-CPA for tiles, IND-CCA for residuals, tamper detection; NOT k-anonymity, NOT epsilon-DP, NOT forward secrecy
+- [x] Mapping of NB17 empirical attack results onto the formal tiers
+
+**Key findings:**
+- Tier 1 adversary (jitter_key only): render display coordinates but cannot reverse PRP or decrypt residual
+- AEAD-PRP mutual dependency: aead_key alone cannot decrypt because correct AD requires prp_key
+- Access-pattern leakage: tile frequency distribution is observable without keys (structural side channel)
+- NB17 spatial/compound attacks are Tier 1 and fail because PRP globally disperses display coordinates
 
 *Rationale from cross-AI review (ChatGPT, 2025-05-10):* NB17 makes strong
 empirical claims about attack success rates; these claims need a formal adversary
@@ -163,24 +171,29 @@ model to scope them correctly and avoid over- or under-stating security guarante
 
 ---
 
-## NB19 — Baseline Comparison *(planned)*
+## NB19 — Baseline Comparison *(done)*
 
-The repository cites geo-indistinguishability and related mechanisms extensively
-but does not compare them empirically against the custom PRP+AEAD+jitter pipeline.
+The repository cited geo-indistinguishability and related mechanisms but did not
+compare them empirically against the custom PRP+AEAD+jitter pipeline.
 
-- [ ] Random uniform jitter (current jitter-only baseline)
-- [ ] Gaussian perturbation at equivalent standard deviation
-- [ ] Laplace mechanism (geo-indistinguishability, Andrés et al. 2013)
-- [ ] Spatial cloaking (k-nearest-neighbour anonymisation)
-- [ ] H3 hex-grid aggregation (from NB11)
-- [ ] Donut geomasking (from `geoprivacy/` package)
-- [ ] Full PRP+AEAD+jitter pipeline
-- [ ] Common evaluation metrics across all mechanisms: EDD, AUC-L, k=1 rate, compound attack success
+- [x] Random uniform jitter (current jitter-only baseline, +/-62.5 m)
+- [x] Gaussian perturbation (sigma=45 m per axis)
+- [x] Laplace mechanism (geo-indistinguishability, scale=45 m per axis)
+- [x] Spatial cloaking (k=15 nearest-neighbour centroid)
+- [x] H3 hex-grid aggregation (resolution 9, from NB11/geoprivacy package)
+- [x] Donut geomasking (band 50-125 m, from geoprivacy package)
+- [x] Full PRP+AEAD+jitter pipeline
+- [x] Common evaluation metrics: EDD, AUC-L ratio, nearest-record spatial attack, compound attack
 
-*Rationale from cross-AI review (ChatGPT, 2025-05-10):* The repo is currently
-centred on its custom pipeline without empirical positioning against the established
-literature it cites. NB19 is the "next quality jump" that transforms the repo from
-a self-contained demo into a contribution to the comparative geoprivacy literature.
+**Key findings:**
+- Full pipeline achieves ~35 m EDD (same as uniform jitter) with ~0% spatial attack and ~0% compound attack
+- Perturbation mechanisms (jitter, Gaussian, Laplace, donut): EDD 35-90 m, spatial attack 40-80%
+- H3 hex-grid and spatial cloaking: EDD 100-200+ m, AUC-L > 100% (artificial super-clusters), spatial attack reduced but not zero
+- Full pipeline: unique privacy-utility position — jitter-level EDD with globally-randomising privacy
+- Residual limitation: access-pattern leakage (tile frequencies) remains (formalised in NB18)
+
+*Rationale from cross-AI review (ChatGPT, 2025-05-10):* The repo was centred on its
+custom pipeline without empirical positioning against the established literature it cites.
 
 ---
 

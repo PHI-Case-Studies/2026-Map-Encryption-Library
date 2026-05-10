@@ -1,10 +1,11 @@
 # Map Encryption Library — Notebook Guide
 
-This is a twenty-one-notebook series spanning a Module 0 on pre-cryptographic
+This is a twenty-three-notebook series spanning a Module 0 on pre-cryptographic
 geoprivacy approaches, the four-step geographic coordinate encryption pipeline
 implemented in `map_encryption/`, privacy evaluation, ethical analysis, DGGS
-alternative spatial indexing, augmented public health datasets, and adversarial
-re-identification experiments.
+alternative spatial indexing, augmented public health datasets, adversarial
+re-identification experiments, a formal threat model, and an empirical baseline
+comparison against established geoprivacy mechanisms.
 Each notebook is self-contained: import only what you need for that topic, run
 cells in order, and you will have a working demonstration.
 
@@ -37,6 +38,8 @@ and `data/pumps.csv`.
 | 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 | 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 | 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | 14–16 |
+| 18 | Formal Threat Model | Adversary capability tiers, trust boundaries, key access/leakage channels, access-pattern side channel, formal security definitions | 04–09 |
+| 19 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | 08, 12–13, 17 |
 
 ## Per-Notebook Descriptions
 
@@ -243,9 +246,45 @@ runs the compound geographic-proximity + QI attack with a 500 m radius: jitter-o
 allows 31.2 % (Philadelphia) and 47.7 % (Houston) unique matches; the full pipeline
 neutralises this attack entirely across all scenarios.
 
+**18 — Formal Threat Model**
+Formalises the informal threat model from NB07 by defining four adversary capability
+tiers (external observer, display-tier operator, decode-tier operator, full key
+compromise) and mapping each to a concrete deployment role. Part 1 demonstrates
+what each tier can and cannot do using `enc.encode`, `enc.render_coordinates`, and
+`enc.decode`. Part 2 demonstrates the deterministic access-pattern side channel:
+encoding the same location five times produces identical `(qxp, qyp)` pairs but
+distinct nonces. Part 3 shows the AEAD-PRP mutual dependency: `aead_key` alone
+cannot decrypt `ct_resid` because the Associated Data requires `(qx, qy)` from the
+PRP inverse; `_AEAD.decrypt()` returns `None` on wrong AD. Part 4 demonstrates
+tamper detection (single-bit flip → `None`). Part 5 documents formal security
+definitions: what the scheme achieves (IND-CPA for tiles, IND-CCA for residuals,
+tamper detection) and does not achieve (k-anonymity, epsilon-DP, forward secrecy,
+access-pattern privacy). Part 6 maps the NB17 empirical attack results onto the
+formal tiers: nearest-record spatial and compound attacks are Tier 1 (display-tier)
+and fail because PRP globally disperses display coordinates; QI-only attacks are
+outside the scheme's scope.
+
+**19 — Baseline Comparison**
+Positions the map encryption pipeline in the geoprivacy literature by empirically
+comparing it against six other mechanisms on the 489-individual Soho cholera dataset.
+Part 1 applies all seven mechanisms (uniform jitter +/-62.5 m, Gaussian sigma=45 m,
+Laplace scale=45 m, spatial cloaking k=15 NN centroid, H3 hex-grid at resolution 9,
+donut geomasking 50-125 m, full PRP+AEAD+jitter pipeline) and tabulates EDD per
+mechanism (Table 19a). Part 2 computes EDD and AUC-L clustering preservation ratio;
+H3 and spatial cloaking show AUC-L ratios above 100% due to point-mass collapse,
+while the full pipeline reports 0% because display coordinates are globally dispersed.
+Part 3 runs the nearest-record spatial attack and compound proximity+QI attack from
+NB17; perturbation-based mechanisms remain vulnerable (40-80% spatial attack success)
+because they stay geographically near the original study area. Part 4 presents a
+four-metric summary table (Table 19b) and a privacy-utility frontier scatter
+(Figure 19e): the full pipeline achieves ~0% attack success at ~35 m EDD, matching
+the utility of uniform jitter while providing the privacy of a globally randomising
+scheme. The main limitation is access-pattern leakage (tile frequencies are
+deterministic and observable without keys, as formalised in NB18).
+
 ## Reading Paths
 
-**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17
+**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19
 
 **Geoprivacy primer (Module 0 only):** 00 → 00a → 00b → 00c
 Pre-cryptographic approaches — donut geomasking (NB00a), re-identification
@@ -273,7 +312,7 @@ Dataset construction pattern: building footprints, spatial snapping, and
 demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
 and Houston environmental burden (NB16).
 
-**Adversarial / security readers:** 07 → 17
-Threat model and pipeline limitations (NB07), then empirical re-identification
-experiments across all three public health scenarios using quasi-identifier,
-spatial nearest-record, and compound attacks (NB17).
+**Adversarial / security readers:** 07 → 17 → 18 → 19
+Threat model and limitations (NB07), empirical re-identification experiments
+(NB17), formal adversary capability tiers and security definitions (NB18),
+and comparative positioning against seven geoprivacy mechanisms (NB19).

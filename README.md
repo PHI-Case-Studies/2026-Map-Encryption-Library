@@ -121,6 +121,8 @@ stress-tested.
 | `15-substance-use-scenario.ipynb` | Synthetic Philadelphia overdose dataset; OSM building footprints + spatial snapping; ACS 2022 demographic context for six ZIP codes |
 | `16-houston-environmental-scenario.ipynb` | Curated TRI 2022 facility dataset; synthetic respiratory incidents; OSM building footprints + spatial snapping; ACS 2022 demographic context for seven Houston Ship Channel ZIP codes |
 | `17-adversarial-experiments.ipynb` | QI-only, nearest-record spatial, and compound geographic+QI re-identification attacks across all three scenarios; jitter-only vs full pipeline |
+| `18-formal-threat-model.ipynb` | Four adversary capability tiers, trust boundaries, AEAD-PRP key dependency demo, access-pattern side channel, formal security definitions |
+| `19-baseline-comparison.ipynb` | Empirical comparison of seven geoprivacy mechanisms on EDD, AUC-L, spatial attack, and compound attack; privacy-utility frontier |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
 | `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |
@@ -133,7 +135,7 @@ stress-tested.
 | `data/houston_buildings.geojson` | 88,666 OSM building footprints for the seven-ZIP Houston study area (NB16) |
 | `data/houston_incidents_snapped.csv` | 925 one-row-per-incident synthetic respiratory records with LAT\_snapped, LON\_snapped, disp\_m columns (NB16) |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
-| `TODO.md` | Research roadmap: NB11–NB13 status and future extensions NB14–NB20 |
+| `TODO.md` | Research roadmap: completion status NB00–NB19 and future extensions NB20+ |
 | `environment.yml` | Conda environment specification |
 | `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
 
