@@ -264,6 +264,158 @@ are geographically near the original.
 
 ---
 
+## Cross-AI platform review
+
+Independent review by a second AI system (ChatGPT or equivalent) provides a check
+on methodological blind spots that Claude may have. Different models have different
+training emphases and tendencies — disagreements between them reliably surface genuine
+ambiguity or weakness in the content. This practice has been used on selected notebooks
+in this repository and is recommended before publishing any new notebook (NB18+).
+
+**The core rule:** give ChatGPT the content without telling it what Claude said.
+Ask for an independent opinion. Do not prime it toward or away from Claude's position.
+
+---
+
+### When to request cross-AI review
+
+- Before finalising a new notebook
+- After significant methodological changes to an existing notebook
+- When making a strong empirical claim (e.g., "the full pipeline reduces attack
+  success to ≈ 0 %")
+- When choosing between two analytic approaches and neither has an obvious precedent
+  in the existing notebooks
+
+---
+
+### Scope 1 — Overall methodological approach
+
+Submit the README "How It Works" section and the research arc summary from NOTEBOOKS.md.
+
+> "I am building a computational geoprivacy research framework. The pipeline encrypts
+> geographic coordinates using a Feistel pseudorandom permutation for tile shuffling
+> and ChaCha20-Poly1305 AEAD for sub-tile residual encryption. The notebooks progress
+> from cryptographic primitives through full-system evaluation, dataset construction
+> for three public health scenarios (cholera / opioid overdose / environmental health),
+> and adversarial re-identification experiments.
+>
+> Please review the overall methodological approach. Specific questions:
+> (1) Are there gaps or blind spots in the pipeline design?
+> (2) Are there well-established geoprivacy mechanisms that should be compared or
+>     discussed but are currently absent?
+> (3) Is the progression from primitive cryptography to applied public health
+>     scenarios a coherent research arc, or are there missing links?
+> (4) Are there methodological concerns with using synthetic parameterised datasets
+>     rather than real records for the public health scenarios?
+> Respond as a reviewer for a computational social science venue."
+
+---
+
+### Scope 2 — Specific notebook content
+
+Export the notebook as markdown (`jupyter nbconvert --to markdown NN-title.ipynb`)
+and paste the relevant sections.
+
+> "Please review the following Jupyter notebook on [topic]. I want feedback on:
+> (1) Correctness of the [spatial analysis methods / privacy metrics / cryptographic
+>     claims] — are any interpretations wrong or overstated?
+> (2) Do the figures and tables support the conclusions drawn in the text?
+> (3) Are there missing failure cases, edge cases, or confounds that should be
+>     acknowledged?
+> (4) Is the narrative clear for a reader with a background in [data science /
+>     public health / cryptography] but not necessarily all three?
+>
+> Do not comment on Python code style. Focus on methodological correctness and
+> interpretive accuracy."
+
+---
+
+### Scope 3 — Geospatial data science accuracy
+
+Target this at NB11–NB13 (DGGS, Ripley's K, Moran's I, KDE) and NB17 (k-anonymity).
+
+> "Please review the following spatial statistics methodology for correctness.
+> Specific claims to verify:
+> (1) [Paste the Ripley's K / Moran's I / Getis-Ord Gi* interpretation text]
+>     — is the interpretation of the statistic correct? Are the distance parameters
+>     and spatial weight choices justified?
+> (2) [Paste the DGGS equal-area comparison] — is the equal-area claim for H3
+>     resolution 9 accurate, and is the comparison with Web Mercator tiles fair?
+> (3) [Paste the k-anonymity computation] — is the equivalence-class definition
+>     correct, and are the QI levels appropriate for the sensitivity of each dataset?
+>
+> Respond as a reviewer with expertise in spatial statistics and location privacy."
+
+---
+
+### Scope 4 — Adversarial experiment design
+
+Target this at NB17 before publishing any new adversarial notebook (NB18+).
+
+> "The following notebook runs three re-identification attacks against encrypted
+> geographic health records: (1) quasi-identifier k-anonymity analysis, (2) a
+> nearest-record spatial attack using a KD-tree, and (3) a compound geographic-
+> proximity + QI attack with a 500 m radius. Two protection regimes are compared:
+> additive jitter-only (±62.5 m) and a full cryptographic pipeline (PRP tile shuffle
+> + AEAD). [Paste the adversary model table and attack results.]
+>
+> Please evaluate:
+> (1) Are the three attack classes representative of real-world re-identification
+>     threats for location health data, or are important threat types missing?
+> (2) Is the jitter-only baseline a fair comparator for the full pipeline?
+> (3) Are the attack success metrics (fraction of records where nearest original
+>     record == true record; fraction with exactly 1 QI+proximity match) the right
+>     operationalisation of re-identification risk?
+> (4) Are the conclusions appropriately hedged given that the datasets are synthetic?"
+
+---
+
+### Scope 5 — Map and visualisation quality
+
+Export Folium maps as screenshots (browser → Save as PNG) and include matplotlib
+figures. Paste code if ChatGPT needs context.
+
+> "Please review the following maps and charts from a data visualisation perspective.
+> (1) [Folium maps] — are the tile layer, zoom level, colour scheme, and legend
+>     choices appropriate for the data? Are there readability issues?
+> (2) [matplotlib/seaborn figures] — are axis labels, titles, and annotations
+>     sufficient for a reader who has not read the surrounding notebook text?
+> (3) Are colour choices accessible to readers with common colour vision deficiencies
+>     (deuteranopia, protanopia)?
+> (4) Are the figure captions informative enough to stand alone?
+>
+> Do not suggest switching to a different plotting library."
+
+---
+
+### Conflict resolution
+
+When Claude and ChatGPT give different guidance:
+
+1. **Document the disagreement** — note what each system said and on which specific
+   claim they differ. Do not silently adopt one position.
+2. **A human domain expert decides** — neither AI defers to the other automatically.
+   The human author reviews both positions and makes the final call.
+3. **If no human is immediately available** — take the more conservative position
+   (smaller claim, wider uncertainty interval, additional caveat) until the
+   disagreement can be reviewed.
+4. **Record the resolution** — add a comment in the relevant commit message or
+   notebook prose noting that a cross-AI disagreement existed and how it was resolved.
+
+---
+
+### What cross-AI review cannot replace
+
+- Human expert verification of **references** (both AIs hallucinate citations)
+- Human authorship of **learning objectives** (requires curriculum design intent)
+- Domain expert review of **glossary definitions** (requires technical accuracy check)
+- **Code execution** — ChatGPT cannot run the notebooks; only Claude Code (in this
+  environment) or `jupyter nbconvert --execute` can verify that code runs correctly
+- **Data provenance** — neither AI can verify that synthetic data parameters match
+  the cited primary sources; a human must check each claim against the original report
+
+---
+
 ## Content that requires human authorship and verification
 
 The following three content types must be written or verified by a human expert.

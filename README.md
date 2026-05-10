@@ -147,6 +147,13 @@ chart code, data pipeline code (Overpass API fetches, spatial snapping, ACS cens
 queries), the `_gen_nbNN.py` generator script pattern, documentation prose, and
 iterative debugging of execution errors across all notebooks.
 
+**Cross-platform AI review:** ChatGPT was used as an independent reviewer on
+selected notebooks and on the overall methodological approach, covering pipeline
+design soundness, geospatial data science accuracy, adversarial experiment design,
+and visualisation quality. Disagreements between Claude and ChatGPT were resolved
+by the human author. See [`CLAUDE.md`](CLAUDE.md) for the review process and
+prompt templates.
+
 **What was human-directed:** research design and narrative arc (which topics, in
 which order, using which datasets), selection and vetting of all external data
 sources and their provenance, cryptographic design decisions in `map_encryption/`,
