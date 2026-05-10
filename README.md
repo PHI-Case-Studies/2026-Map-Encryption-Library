@@ -77,7 +77,7 @@ jupyter lab 01-introduction.ipynb
 
 | File | Description |
 |------|-------------|
-| `map_encryption.py` | Core library: all crypto logic, public API and private helpers |
+| `map_encryption/` | Python package — core library (`__init__.py`) and visualisation helpers (`viz.py`) |
 | `01-introduction.ipynb` | Problem statement, pipeline overview, 250 cholera death locations |
 | `02-coordinate-projection.ipynb` | Web Mercator derivation, scale distortion, 8-pump round-trip |
 | `03-grid-snapping-and-prp.ipynb` | Grid quantisation, Feistel PRP walkthrough, rejection sampling |
@@ -94,6 +94,7 @@ jupyter lab 01-introduction.ipynb
 | `14-cholera-dataset-augmentation.ipynb` | Building footprints, spatial snapping, synthetic demographics; full data provenance and sources |
 | `15-substance-use-scenario.ipynb` | Synthetic Philadelphia overdose dataset; OSM building footprints + spatial snapping; ACS 2022 demographic context for six ZIP codes |
 | `16-houston-environmental-scenario.ipynb` | Curated TRI 2022 facility dataset; synthetic respiratory incidents; OSM building footprints + spatial snapping; ACS 2022 demographic context for seven Houston Ship Channel ZIP codes |
+| `17-adversarial-experiments.ipynb` | QI-only, nearest-record spatial, and compound geographic+QI re-identification attacks across all three scenarios; jitter-only vs full pipeline |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
 | `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |
@@ -114,11 +115,10 @@ jupyter lab 01-introduction.ipynb
 
 - **Python 3.10**
 - **numpy** — numerical arrays
-- **matplotlib** — NB01 only (side-by-side scatter)
-- **plotly** — interactive charts in NB02–NB13
-- **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08, NB11–NB13
+- **matplotlib / seaborn** — all static charts (NB01–NB17)
+- **folium** — interactive maps in NB02, NB03, NB05, NB06, NB08, NB11–NB16
 - **pandas** — CSV loading and DataFrame construction
-- **scipy** — nearest-neighbour distance (MNND) in NB08; KDE in NB13
+- **scipy** — nearest-neighbour distance (MNND) in NB08; KDE in NB13; KDTree in NB17
 - **scikit-learn** — DBSCAN cluster evaluation in NB08 and NB10
 - **h3-py** — H3 hexagonal DGGS cell encoding in NB11
 - **libpysal / esda / pointpats** — spatial weights, Moran's I, Getis-Ord Gi*, Ripley's K in NB12–NB13
@@ -135,6 +135,38 @@ and standards compliance.
 > is required for the non-AEAD cryptographic operations.
 
 Each notebook ends with a References section citing the sources relevant to that topic.
+
+## Development
+
+This repository was developed with **Claude Sonnet 4.6** (Anthropic) via
+[Claude Code](https://claude.ai/code), an AI-assisted development environment.
+All commits carry a `Co-Authored-By: Claude Sonnet 4.6` trailer reflecting this.
+
+**What AI contributed:** notebook structure and cell sequencing, matplotlib/seaborn
+chart code, data pipeline code (Overpass API fetches, spatial snapping, ACS census
+queries), the `_gen_nbNN.py` generator script pattern, documentation prose, and
+iterative debugging of execution errors across all notebooks.
+
+**What was human-directed:** research design and narrative arc (which topics, in
+which order, using which datasets), selection and vetting of all external data
+sources and their provenance, cryptographic design decisions in `map_encryption/`,
+ethical framing in NB10, and review of all quantitative results for correctness
+and interpretability.
+
+**Curation and AI-assisted contribution guidance** is documented in [`CLAUDE.md`](CLAUDE.md),
+which covers notebook formatting conventions, the generator script workflow and its
+known pitfalls, library structure, and effective prompt patterns for common tasks
+(adding a notebook, patching a cell, converting a chart, adding captions).
+
+**Pain points encountered during AI-assisted development:**
+- Plotly 6.x incompatibility with JupyterLab's bundled extension — all charts
+  were migrated to matplotlib/seaborn
+- Triple-quote conflicts in generator scripts (`f"""..."""` inside `code("""\...""")`)
+  require triple-single-quotes or string concatenation inside cell source strings
+- Duplicate column names arise when renaming a column that shares a name with an
+  existing column — always `drop` before `rename`
+- `conda run -n crypto` resolves to system Python on this machine — use the full
+  path `/opt/homebrew/Caskroom/miniforge/base/envs/crypto/bin/python` instead
 
 ## References
 
