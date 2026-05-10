@@ -307,6 +307,11 @@ deterministic and observable without keys, as formalised in NB18).
 
 **Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20
 
+**Minimal core (self-contained executable paper):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 10
+NB01–NB10 form the minimal complete system. Each notebook is self-contained and
+executable in order. Readers who want only the cryptographic pipeline and its
+evaluation can stop here; NB11+ are optional graduate-level extensions.
+
 **Geoprivacy primer (Module 0 only):** 00 → 00a → 00b → 00c
 Pre-cryptographic approaches — donut geomasking (NB00a), re-identification
 evaluation (NB00b), and H3 hex-grid binning (NB00c) — without any cryptography.
