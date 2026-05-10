@@ -264,6 +264,52 @@ are geographically near the original.
 
 ---
 
+## Content that requires human authorship and verification
+
+The following three content types must be written or verified by a human expert.
+Do not generate them autonomously. If asked to produce any of these, draft a
+placeholder and flag it explicitly for human review.
+
+### Learning objectives
+
+Learning objectives encode the pedagogical intent of a notebook — what a reader
+should be able to do after completing it. They reflect curriculum design decisions
+that depend on the intended audience, prior knowledge assumptions, and assessment
+context. AI can suggest candidate objectives based on notebook content, but the
+final wording must be approved by the course designer. Do not add a learning
+objectives section to any notebook without explicit human instruction.
+
+### References and citations
+
+All bibliographic references in this repository were selected and verified by a
+human researcher. AI language models hallucinate plausible-sounding but non-existent
+citations, including fabricated DOIs, incorrect author lists, wrong publication
+years, and journals that do not exist.
+
+Rules:
+- **Never add a reference without a verifiable DOI or stable URL.**
+- **Never invent or infer a citation** from a partial description.
+- If a notebook needs a new reference, insert a clearly marked placeholder:
+  `[CITATION NEEDED: description of the claim that needs a source]`
+  and leave it for the human to supply.
+- The reference list in `README.md` and per-notebook References sections are
+  authoritative; do not modify them without instruction.
+
+### Glossary entries
+
+The glossary defines domain-specific terms for readers who may not have backgrounds
+in both cryptography and geospatial data science. Definitions must be:
+- Technically accurate as reviewed by a domain expert
+- Consistent in terminology with the rest of the notebooks
+- Free of circular definitions and unexplained jargon
+
+AI can draft glossary entries, but they must be reviewed for technical accuracy
+before publication. Do not add a glossary section to any notebook autonomously.
+If a glossary term is needed, mark it with `[GLOSSARY: term — draft definition]`
+for human review.
+
+---
+
 ## Pain points and curation recommendations
 
 **Notebook file size** — NB15 (`15-substance-use-scenario.ipynb`) is ~61 MB

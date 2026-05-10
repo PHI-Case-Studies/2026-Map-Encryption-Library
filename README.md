@@ -150,8 +150,9 @@ iterative debugging of execution errors across all notebooks.
 **What was human-directed:** research design and narrative arc (which topics, in
 which order, using which datasets), selection and vetting of all external data
 sources and their provenance, cryptographic design decisions in `map_encryption/`,
-ethical framing in NB10, and review of all quantitative results for correctness
-and interpretability.
+ethical framing in NB10, technical review of geospatial data science methods,
+verification of all bibliographic references, and review of all quantitative
+results for correctness and interpretability.
 
 **Curation and AI-assisted contribution guidance** is documented in [`CLAUDE.md`](CLAUDE.md),
 which covers notebook formatting conventions, the generator script workflow and its
