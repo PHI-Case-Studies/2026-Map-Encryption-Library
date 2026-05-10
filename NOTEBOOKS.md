@@ -1,11 +1,10 @@
 # Map Encryption Library — Notebook Guide
 
-This is a seventeen-notebook series that walks through the four-step geographic
-coordinate encryption pipeline implemented in `map_encryption/`, evaluates
-its privacy properties, examines the ethical tensions that govern when and how
-to deploy it, explores DGGS as an alternative spatial reference layer,
-constructs augmented research datasets for three public health scenarios, and
-runs adversarial re-identification experiments against all three.
+This is a twenty-one-notebook series spanning a Module 0 on pre-cryptographic
+geoprivacy approaches, the four-step geographic coordinate encryption pipeline
+implemented in `map_encryption/`, privacy evaluation, ethical analysis, DGGS
+alternative spatial indexing, augmented public health datasets, and adversarial
+re-identification experiments.
 Each notebook is self-contained: import only what you need for that topic, run
 cells in order, and you will have a working demonstration.
 
@@ -17,6 +16,10 @@ and `data/pumps.csv`.
 
 | Notebook | Title | Primary Topic | Depends On |
 |----------|-------|---------------|------------|
+| 00 | Introduction to Geoprivacy | Problem statement, donut masking, H3 hex binning overview | — |
+| 00a | Donut Geomasking | Random displacement 50-125 m, re-identification experiment | 00 |
+| 00b | Donut Geomasking Evaluation | WMC analysis, re-ID rate sweep, performance tradeoff | 00a |
+| 00c | H3 Hex-Grid Binning | Hexagonal cell aggregation, multi-resolution privacy, tradeoff table | 00 |
 | 01 | Introduction to Map Encryption | Problem statement, 4-step pipeline, encode/decode demo | — |
 | 02 | Coordinate Projection | Web Mercator formula, scale distortion, pump round-trips | — |
 | 03 | Grid Snapping and the Feistel PRP | Tile quantisation, Feistel bijection, rejection sampling | 02 (concept) |
@@ -36,6 +39,35 @@ and `data/pumps.csv`.
 | 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | 14–16 |
 
 ## Per-Notebook Descriptions
+
+**00 — Introduction to Geoprivacy**
+Introduces the geoprivacy problem: why GPS coordinates are quasi-identifying even
+without names. Surveys two pre-cryptographic baseline approaches — donut geomasking
+and H3 hex-grid binning — and demonstrates each briefly on the Broadwick Street pump
+location. Closes by mapping each approach's limitations onto the four properties the
+cryptographic pipeline (NB01+) adds: formal security, tamper detection, key-based
+access control, and cluster-structure destruction.
+
+**00a — Donut Geomasking**
+Applies the `geoprivacy.data_geomask()` function to all 250 cholera death locations
+using a 50-125 m band. Shows an interactive Folium map (original vs masked), a
+displacement histogram, and a nearest-neighbour re-identification experiment showing
+~1-3% of masked records can be recovered within 20 m.
+
+**00b — Donut Geomasking Evaluation**
+Self-contained evaluation (no cross-notebook file dependencies). Part 1: weighted mean
+center displacement over 20 independent masking runs shows population-level summaries
+are preserved (~10 m WMC shift despite 87 m mean individual displacement). Part 2:
+re-identification rate sweep across four band configurations (25-50 m, 50-125 m,
+100-200 m, 200-400 m). Part 3: utility-privacy tradeoff table comparing EDD vs
+re-identification rate across configurations.
+
+**00c — H3 Hex-Grid Binning**
+Applies H3 hexagonal cell aggregation at resolutions 7, 8, and 9 to all 250 cholera
+deaths. Renders cell boundaries and centroids on a Folium map. Part 2 shows nested
+multi-resolution cells at the Broadwick Street pump. Part 3 presents a tradeoff table:
+unique cell count, mean EDD, minimum spatial k-anonymity, and mean spatial k-anonymity
+across all three resolutions.
 
 **01 — Introduction to Map Encryption**
 Explains why GPS coordinates are quasi-identifying and why field-level encryption
@@ -213,7 +245,11 @@ neutralises this attack entirely across all scenarios.
 
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17
+**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17
+
+**Geoprivacy primer (Module 0 only):** 00 → 00a → 00b → 00c
+Pre-cryptographic approaches — donut geomasking (NB00a), re-identification
+evaluation (NB00b), and H3 hex-grid binning (NB00c) — without any cryptography.
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical

@@ -99,6 +99,11 @@ stress-tested.
 | File | Description |
 |------|-------------|
 | `map_encryption/` | Python package — core library (`__init__.py`) and visualisation helpers (`viz.py`) |
+| `geoprivacy/` | Python package — donut geomasking and H3 hex-grid binning utilities |
+| `00-geoprivacy-intro.ipynb` | Geoprivacy problem, donut masking overview, H3 hex-grid binning overview |
+| `00a-donut-geomasking.ipynb` | Donut geomasking (50-125 m band) on 250 cholera deaths; re-identification experiment |
+| `00b-donut-geomasking-evaluation.ipynb` | WMC displacement, re-ID rate sweep, EDD vs re-ID tradeoff table |
+| `00c-hex-grid-binning.ipynb` | H3 hex-grid aggregation at resolutions 7-9; spatial k-anonymity tradeoff |
 | `01-introduction.ipynb` | Problem statement, pipeline overview, 250 cholera death locations |
 | `02-coordinate-projection.ipynb` | Web Mercator derivation, scale distortion, 8-pump round-trip |
 | `03-grid-snapping-and-prp.ipynb` | Grid quantisation, Feistel PRP walkthrough, rejection sampling |

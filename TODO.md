@@ -4,12 +4,37 @@
 
 | Phase | Notebooks | Theme |
 |-------|-----------|-------|
+| Prior art (Module 0) | NB00–NB00c | Donut masking, H3 hex-grid binning |
 | Core mechanisms | NB01–NB05 | Projection, quantisation, PRP, AEAD, jitter |
 | System implications | NB06–NB10 | Full pipeline, security, evaluation, split storage, ethics |
 | Research extensions | NB11+ | Advanced geospatial architecture and evaluation |
 
 NB01–NB10 form a coherent minimal complete system. NB11 onward are
 graduate-level modules that can be read independently or in sequence.
+Module 0 (NB00–NB00c) is a self-contained primer on pre-cryptographic
+geoprivacy that provides motivation and prior-art context for NB01+.
+
+---
+
+## Module 0 — Prior Art: Pre-Cryptographic Geoprivacy *(done)*
+
+Four notebooks from the companion `2023-Ethical-Practice-Geospatial-Data-Science`
+repository, adapted to use this repo's `geoprivacy/` package and cartodbpositron
+tile convention. Documents what donut masking and hex-grid binning achieve and where
+they fall short, motivating the full cryptographic pipeline.
+
+- [x] NB00: Introduction — geoprivacy problem, overview of two baseline approaches
+- [x] NB00a: Donut geomasking on 250 cholera deaths; Folium map; re-ID experiment (~1-3%)
+- [x] NB00b: Self-contained evaluation — WMC displacement, re-ID rate sweep, EDD tradeoff table
+- [x] NB00c: H3 hex-grid binning at resolutions 7-9; spatial k-anonymity tradeoff table
+- [x] geoprivacy/ package: fixed 4 issues (pd.concat, osmnx import, h3 4.x API, gmIDeffort bug)
+- [x] NB01 patched: prior art forward reference added
+- [x] NB07 patched: comparison table (donut, H3, full pipeline) added before References
+
+**Key findings:**
+- Donut geomasking (50-125 m): ~87 m EDD, ~1-3% re-ID rate, cluster structure preserved
+- H3 hex binning (res 9): ~100-150 m EDD, ~0% re-ID within cell, individual precision lost
+- Full pipeline: ~35 m EDD, ~0% re-ID, cluster structure destroyed, tamper detectable
 
 ---
 
