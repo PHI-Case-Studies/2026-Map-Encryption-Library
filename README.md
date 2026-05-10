@@ -73,6 +73,27 @@ jupyter lab 01-introduction.ipynb
 > notebooks active simultaneously will exhaust Binder's memory limit and crash
 > the session. Shut down a notebook's kernel before opening the next one.
 
+## Relationship to the 2023 Geoprivacy Case Study
+
+This repository builds on the earlier
+[`2023-Ethical-Practice-Geospatial-Data-Science`](https://github.com/PHI-Case-Studies/2023-Ethical-Practice-Geospatial-Data-Science)
+digital case study, which introduced geoprivacy concepts through an executable
+Jupyter/Docker learning module based on the 1854 Soho cholera outbreak using
+public, non-sensitive data. That prior work is treated here as pedagogical and
+ethical prior art.
+
+The present repository extends that foundation from ethical case-study instruction
+into a computational geoprivacy research framework. It adds reversible coordinate
+encryption, Feistel PRP tile shuffling, AEAD-protected residuals, display-tier
+jitter without precise-coordinate access, DGGS-style tile identifiers, advanced
+spatial utility evaluation, public-health scenario augmentation, and adversarial
+re-identification experiments.
+
+The two repositories are therefore complementary: the 2023 project frames *why*
+geoprivacy matters in public-health education, while the 2026 project explores
+*how* protected spatial workflows might be implemented, evaluated, and
+stress-tested.
+
 ## Files
 
 | File | Description |
@@ -126,9 +147,10 @@ jupyter lab 01-introduction.ipynb
   `cryptography.hazmat.primitives.ciphers.aead`
 
 **Fallback:** If `cryptography` is not installed, the library falls back to
-XOR + HMAC-SHA256 using only the Python standard library. All security
-properties are preserved; ChaCha20-Poly1305 is preferred for performance
-and standards compliance.
+XOR + HMAC-SHA256 using only the Python standard library. The fallback preserves
+the notebook demonstrations and integrity-checking behaviour via HMAC-SHA256, but
+does not provide the authenticated encryption (IND-CCA) guarantees of
+ChaCha20-Poly1305. Use the `cryptography` package for any real deployment.
 
 > **Note:** BLAKE2s is used throughout (key derivation, PRF, jitter) via
 > `hashlib.blake2s` in the Python standard library — no external dependency
@@ -165,6 +187,16 @@ results for correctness and interpretability.
 which covers notebook formatting conventions, the generator script workflow and its
 known pitfalls, library structure, and effective prompt patterns for common tasks
 (adding a notebook, patching a cell, converting a chart, adding captions).
+
+**Large notebook outputs:** `15-substance-use-scenario.ipynb` is approximately
+61 MB due to embedded Folium map HTML containing 108,183 building-footprint
+polygons. For publication, Jupyter Book builds, or CI pipelines, clear heavy
+Folium outputs before processing:
+```bash
+jupyter nbconvert --ClearOutputPreprocessor.enabled=True --inplace 15-substance-use-scenario.ipynb
+```
+GitHub accepts the file as-is (under the 100 MB limit) but will warn; Binder
+should be used one notebook at a time (see the Binder note above).
 
 **Pain points encountered during AI-assisted development:**
 - Plotly 6.x incompatibility with JupyterLab's bundled extension — all charts

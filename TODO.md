@@ -121,13 +121,50 @@ does not encrypt metadata — requires separate QI generalisation).
 
 ---
 
-## NB18–NB20 — Future extensions *(ideas)*
+## NB18 — Formal Threat Model *(planned)*
+
+NB07 provides a structured but informal threat model. NB18 should formalise it:
+
+- [ ] Adversary capability tiers: external observer, partial-key insider, full-key compromise
+- [ ] Trust boundaries: what each pipeline layer protects and what it explicitly does not
+- [ ] Key access and leakage channels: what an attacker with only qxp/qyp can infer
+- [ ] Access-pattern leakage: what repeated queries to the display tier reveal over time
+- [ ] Formal security definitions appropriate for the PRP+AEAD construction
+- [ ] Mapping of NB17 empirical attack results onto the formal tiers
+
+*Rationale from cross-AI review (ChatGPT, 2025-05-10):* NB17 makes strong
+empirical claims about attack success rates; these claims need a formal adversary
+model to scope them correctly and avoid over- or under-stating security guarantees.
+
+---
+
+## NB19 — Baseline Comparison *(planned)*
+
+The repository cites geo-indistinguishability and related mechanisms extensively
+but does not compare them empirically against the custom PRP+AEAD+jitter pipeline.
+
+- [ ] Random uniform jitter (current jitter-only baseline)
+- [ ] Gaussian perturbation at equivalent standard deviation
+- [ ] Laplace mechanism (geo-indistinguishability, Andrés et al. 2013)
+- [ ] Spatial cloaking (k-nearest-neighbour anonymisation)
+- [ ] H3 hex-grid aggregation (from NB11)
+- [ ] Donut geomasking (from `geoprivacy/` package)
+- [ ] Full PRP+AEAD+jitter pipeline
+- [ ] Common evaluation metrics across all mechanisms: EDD, AUC-L, k=1 rate, compound attack success
+
+*Rationale from cross-AI review (ChatGPT, 2025-05-10):* The repo is currently
+centred on its custom pipeline without empirical positioning against the established
+literature it cites. NB19 is the "next quality jump" that transforms the repo from
+a self-contained demo into a contribution to the comparative geoprivacy literature.
+
+---
+
+## NB20–NB21 — Further extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB18 | Differential privacy hybrids — Laplace/Gaussian mechanisms vs AEAD |
-| NB19 | Federated geospatial analytics |
-| NB20 | Cross-scenario privacy–utility evaluation |
+| NB20 | Differential privacy hybrids — Laplace/Gaussian mechanisms as complement to AEAD |
+| NB21 | Federated geospatial analytics |
 
 ---
 

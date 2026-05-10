@@ -495,3 +495,22 @@ Overpass API has rate limits and large fetches take 5–15 minutes.
 **Three-scenario consistency** — any metric or attack introduced for one scenario
 should be applied to all three (Cholera, Drug Overdose, Respiratory/Environmental)
 so readers can compare across contexts. NB17 is the reference for this pattern.
+
+**Synthetic data disclaimer** — NB14, NB15, and NB16 use synthetic individual
+records parameterised from published public health statistics. Every notebook that
+introduces or uses synthetic records must include this statement in its title cell
+or a prominent early markdown cell:
+
+> The individual records in this notebook are synthetic datasets parameterised from
+> published public health statistics. They are not real patient records, not
+> epidemiological estimates, and should not be interpreted as such. They serve
+> solely as privacy-risk testbeds for evaluating geographic coordinate encryption.
+
+Do not omit or abbreviate this statement when adding new scenario notebooks.
+
+**H3 equal-area claims** — H3 hexagonal cells are useful as a more globally
+regular index than Web Mercator square bins, but strict equal-area claims are
+contestable. Unless a notebook explicitly quantifies cell-area variation across
+the study area, use the phrase "more globally regular cell areas than Web Mercator
+square bins at equivalent resolution" rather than "equal-area." NB11 should be
+checked against this guidance.
