@@ -19,3 +19,4 @@ dependencies:
   - esda
   - pointpats
   - seaborn
+  - geopy

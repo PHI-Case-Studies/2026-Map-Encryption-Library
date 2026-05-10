@@ -1,6 +1,6 @@
 # Map Encryption Library — Notebook Guide
 
-This is a fifteen-notebook series that walks through the four-step geographic
+This is a sixteen-notebook series that walks through the four-step geographic
 coordinate encryption pipeline implemented in `map_encryption.py`, evaluates
 its privacy properties, examines the ethical tensions that govern when and how
 to deploy it, explores DGGS as an alternative spatial reference layer, and
@@ -31,6 +31,7 @@ and `data/pumps.csv`.
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
 | 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
+| 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
 
 ## Per-Notebook Descriptions
 
@@ -176,9 +177,26 @@ for all six ZIP codes (B01003, B02001, B03003, B17001, B19013) and presents
 racial/ethnic composition and poverty rates (Figure 15c, Table 15a): all six
 ZIPs are majority-minority with poverty rates between 28 % and 40 %.
 
+**16 — Data Setup: Environmental Scenario**
+Constructs the three-layer research dataset for Houston Ship Channel environmental
+burden data (Scenario C from NB10). Part 1 embeds a curated TRI 2022 facility dataset
+(18 major facilities, coordinates from EPA TRI geocoding) and generates a synthetic
+dataset of 925 respiratory/cardiovascular emergency visits across seven Ship Channel
+ZIP codes (2022), parameterised from Texas DSHS environmental public health tracking
+data; maps incident distribution and facility locations by chemical class (Figure 16a).
+Part 2 fetches OSM building footprints for the seven-ZIP study area (88,666 polygons)
+via the Overpass API and snaps all 925 synthetic incident points to the nearest
+building interior using Shapely `nearest_points` (median displacement 17.9 m,
+max 1,071.2 m); outputs `data/houston_buildings.geojson` and
+`data/houston_incidents_snapped.csv`. Part 3 retrieves 2022 ACS 5-year estimates
+for all seven ZIP codes (B01003, B02001, B03003, B17001, B19013) and presents
+racial/ethnic composition and poverty rates (Figure 16c, Table 16a): all seven
+ZIPs are majority-Hispanic environmental-justice communities with poverty rates
+between 18 % and 32 %.
+
 ## Reading Paths
 
-**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15
+**Sequential (full course):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16
 
 **API users (skip internals):** 01 → 06 → 10
 Understand the encode/decode/render interface, failure modes, and ethical
@@ -197,7 +215,7 @@ First-generation metrics EDD/MNND/DBSCAN (NB08), second-generation point
 pattern and autocorrelation metrics (NB12), density surface fidelity and
 the privacy–utility frontier (NB13).
 
-**Data augmentation readers:** 14 → 15 → 16 *(NB16 in progress)*
+**Data augmentation readers:** 14 → 15 → 16
 Dataset construction pattern: building footprints, spatial snapping, and
 demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
 and Houston environmental burden (NB16).

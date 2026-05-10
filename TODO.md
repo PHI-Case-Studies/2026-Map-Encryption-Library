@@ -84,19 +84,23 @@ Parallels NB14 but for a stigmatised population with equity analysis.
 
 ---
 
-## NB16 — Data Setup: Environmental Scenario *(planned)*
+## NB16 — Data Setup: Environmental Scenario *(done)*
 
-Houston / Harris County — TRI industrial facilities + residential proximity.
+Houston Ship Channel — TRI industrial facilities + residential proximity.
 
-- [ ] Curated TRI 2022 dataset: ~20 major Ship Channel facilities with coordinates
-- [ ] 7 target ZIP codes: 77029, 77020, 77015, 77011, 77012, 77023, 77026
-- [ ] OSM building footprints for study area (Overpass)
-- [ ] Synthetic respiratory/asthma incident dataset parameterised from Harris County
-      health data
-- [ ] Spatial snapping to buildings
-- [ ] ACS demographics for 7 ZIPs
-- [ ] Figure 16a: facility locations + study area map
-- [ ] Figure 16b: demographic composition (majority Hispanic / low-income)
+- [x] Curated TRI 2022 dataset: 18 major Ship Channel facilities with coordinates
+- [x] 7 target ZIP codes: 77011, 77012, 77015, 77020, 77023, 77026, 77029
+- [x] OSM building footprints for study area (88,666 polygons via Overpass)
+- [x] Synthetic respiratory/asthma/cardiovascular incident dataset (925 records)
+      parameterised from Texas DSHS and Harris County Public Health data
+- [x] Spatial snapping to buildings (797/925 moved; median 17.9 m, max 1,071.2 m)
+- [x] ACS 2022 demographics (B01003/B02001/B03003/B17001/B19013 for 7 ZIPs)
+- [x] Figure 16a: TRI facility locations + incident distribution (Folium)
+- [x] Figure 16c: racial/ethnic composition + poverty bar chart (seaborn)
+- [x] Table 16a: demographics by ZIP (Plotly CDN)
+
+**Data files:** `data/houston_zipcodes.geojson`, `data/houston_buildings.geojson`,
+`data/houston_incidents_snapped.csv`
 
 ---
 
