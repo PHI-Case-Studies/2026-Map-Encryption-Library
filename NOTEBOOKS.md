@@ -16,32 +16,35 @@ and `data/pumps.csv`.
 
 ## Notebook Overview
 
-| Notebook | Title | Primary Topic | Depends On |
-|----------|-------|---------------|------------|
-| 00 | Introduction to Geoprivacy | Problem statement, donut masking, H3 hex binning overview | — |
-| 00a | Donut Geomasking | Random displacement 50-125 m, re-identification experiment | 00 |
-| 00b | Donut Geomasking Evaluation | WMC analysis, re-ID rate sweep, performance tradeoff | 00a |
-| 00c | H3 Hex-Grid Binning | Hexagonal cell aggregation, multi-resolution privacy, tradeoff table | 00 |
-| 01 | Introduction to Map Encryption | Problem statement, 4-step pipeline, encode/decode demo | — |
-| 02 | Coordinate Projection | Web Mercator formula, scale distortion, pump round-trips | — |
-| 03 | Grid Snapping and the Feistel PRP | Tile quantisation, Feistel bijection, rejection sampling | 02 (concept) |
-| 04 | Residual Encryption with AEAD | ChaCha20-Poly1305, AD construction, tamper detection | 03 (concept) |
-| 05 | Key Derivation and Display Jitter | HKDF-style KDF, jitter mechanics, key privilege separation | 04 (concept) |
-| 06 | Complete Pipeline | Public-API only, 250-record end-to-end demo, failure modes | 01–05 |
-| 07 | Security and Limitations | Threat model, 5 limitations, directions for improvement | 01–06 |
-| 08 | Evaluation: EDD, MNND, Cluster Fidelity | Privacy metric suite from Lin (2023), jitter sweep | 05–06 |
-| 09 | ct_resid Externalization | Split storage architecture, AEAD-PRP mutual dependency | 04–06 |
-| 10 | Ethical Perspectives on Geoprivacy | Six tensions, three public health scenarios, principle mapping | 01–08 |
-| 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | 03–04 |
-| 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | 08 |
-| 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | 12 |
-| 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | 06–08 |
-| 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
-| 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | 06, 10, 14 |
-| 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | 14–16 |
-| 18 | Formal Threat Model | Adversary capability tiers, trust boundaries, key access/leakage channels, access-pattern side channel, formal security definitions | 04–09 |
-| 19 | Gaussian and Laplace Mechanisms | Gaussian perturbation (Rayleigh displacement), planar Laplace geo-indistinguishability (Andrés et al. 2013), epsilon vs EDD, three-way comparison | 05 |
-| 20 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | 08, 12–13, 17, 19 |
+Difficulty levels: **Intro** (no prior geoprivacy required) · **Intermediate** (requires NB01–06) · **Advanced** (spatial stats or crypto background) · **Research** (graduate synthesis)
+
+| Notebook | Title | Primary Topic | Difficulty | Bloom Level | Depends On |
+|----------|-------|---------------|------------|-------------|------------|
+| 00 | Introduction to Geoprivacy | Problem statement, donut masking, H3 hex binning overview | Intro | Understand | — |
+| 00a | Donut Geomasking | Random displacement 50-125 m, re-identification experiment | Intro | Understand/Apply | 00 |
+| 00b | Donut Geomasking Evaluation | WMC analysis, re-ID rate sweep, performance tradeoff | Intro | Apply/Analyze | 00a |
+| 00c | H3 Hex-Grid Binning | Hexagonal cell aggregation, multi-resolution privacy, tradeoff table | Intro | Understand/Apply | 00 |
+| 01 | Introduction to Map Encryption | Problem statement, 4-step pipeline, encode/decode demo | Intro | Understand | — |
+| 02 | Coordinate Projection | Web Mercator formula, scale distortion, pump round-trips | Intermediate | Apply | — |
+| 03 | Grid Snapping and the Feistel PRP | Tile quantisation, Feistel bijection, rejection sampling | Intermediate | Apply/Analyze | 02 (concept) |
+| 04 | Residual Encryption with AEAD | ChaCha20-Poly1305, AD construction, tamper detection | Intermediate | Apply/Analyze | 03 (concept) |
+| 05 | Key Derivation and Display Jitter | HKDF-style KDF, jitter mechanics, key privilege separation | Intermediate | Apply/Analyze | 04 (concept) |
+| 06 | Complete Pipeline | Public-API only, 250-record end-to-end demo, failure modes | Intermediate | Apply | 01–05 |
+| 07 | Security and Limitations | Threat model, 5 limitations, directions for improvement | Intermediate | Analyze/Evaluate | 01–06 |
+| 08 | Evaluation: EDD, MNND, Cluster Fidelity | Privacy metric suite from Lin (2023), jitter sweep | Intermediate | Apply/Analyze | 05–06 |
+| 09 | ct_resid Externalization | Split storage architecture, AEAD-PRP mutual dependency | Intermediate | Analyze | 04–06 |
+| 10 | Ethical Perspectives on Geoprivacy | Six tensions, three public health scenarios, principle mapping | Intermediate | Analyze/Evaluate | 01–08 |
+| 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | Advanced | Analyze | 03–04 |
+| 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | Advanced | Analyze/Evaluate | 08 |
+| 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | Advanced | Analyze/Evaluate | 12 |
+| 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | Advanced | Apply/Analyze | 06–08 |
+| 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | Advanced | Apply/Analyze | 06, 10, 14 |
+| 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | Advanced | Apply/Analyze | 06, 10, 14 |
+| 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | Research | Evaluate | 14–16 |
+| 18 | Formal Threat Model | Adversary capability tiers, trust boundaries, key access/leakage channels, access-pattern side channel, formal security definitions | Research | Evaluate/Create | 04–09 |
+| 19 | Gaussian and Laplace Mechanisms | Gaussian perturbation (Rayleigh displacement), planar Laplace geo-indistinguishability (Andrés et al. 2013), epsilon vs EDD, three-way comparison | Research | Analyze/Evaluate | 05 |
+| 20 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | Research | Evaluate | 08, 12–13, 17, 19 |
+| 21 | Research Synthesis | Contributions, limitations, DP comparison, operational deployment, unresolved gaps, future directions, open questions | Research | Evaluate/Create | 01–20 |
 
 ## Per-Notebook Descriptions
 

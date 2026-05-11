@@ -9,6 +9,19 @@ All spatial examples use the **1854 Soho cholera outbreak dataset** (John Snow):
 250 death locations and 8 water pump locations from `data/cholera_deaths.csv`
 and `data/pumps.csv`.
 
+## Intended Audience
+
+This repository is designed for advanced learners with some familiarity with:
+- Python/Jupyter workflows and data science libraries (numpy, pandas, folium)
+- Introductory GIS concepts (coordinate systems, spatial data formats)
+- Basic cryptographic ideas (encryption, keys, authentication)
+- Public-health or geospatial data analysis
+
+The notebooks progress from introductory concepts (Module 0, NB01–06) through
+research-grade geoprivacy evaluation (NB11–13) and adversarial analysis (NB17–20).
+NB11 onward are graduate-level extensions requiring comfort with spatial statistics.
+See `NOTEBOOKS.md` for difficulty levels and reading paths.
+
 ## How It Works
 
 - **Project** — Convert (lat, lon) to Web Mercator metres (NB02)
