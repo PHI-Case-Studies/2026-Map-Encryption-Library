@@ -18,7 +18,8 @@ This repository is designed for advanced learners with some familiarity with:
 - Public-health or geospatial data analysis
 
 The notebooks progress from introductory concepts (Module 0, NB01–06) through
-research-grade geoprivacy evaluation (NB11–13) and adversarial analysis (NB17–20).
+advanced geoprivacy evaluation (NB11–13), adversarial analysis (NB17–20), and
+a capstone synthesis (NB21).
 NB11 onward are graduate-level extensions requiring comfort with spatial statistics.
 See `NOTEBOOKS.md` for difficulty levels and reading paths.
 
@@ -127,7 +128,7 @@ stress-tested.
 | `08-evaluation.ipynb` | EDD, MNND, DBSCAN cluster fidelity metrics (Lin 2023) on cholera data |
 | `09-ct-resid-externalization.ipynb` | Split storage architecture, AEAD-PRP mutual dependency |
 | `10-geoprivacy-ethics.ipynb` | Six ethical tensions, three public health scenarios, principle mapping |
-| `11-dggs-tile-identifiers.ipynb` | H3 hexagonal DGGS as alternative tile identifier; equal-area cells, multi-resolution privacy |
+| `11-dggs-tile-identifiers.ipynb` | H3 hexagonal DGGS as alternative tile identifier; more globally regular cells than Web Mercator square bins; multi-resolution privacy |
 | `12-advanced-evaluation-part1.ipynb` | Ripley's K, Moran's I, Getis-Ord Gi* — point pattern and autocorrelation analysis |
 | `13-advanced-evaluation-part2.ipynb` | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases |
 | `14-cholera-dataset-augmentation.ipynb` | Building footprints, spatial snapping, synthetic demographics; full data provenance and sources |
@@ -137,6 +138,7 @@ stress-tested.
 | `18-formal-threat-model.ipynb` | Four adversary capability tiers, trust boundaries, AEAD-PRP key dependency demo, access-pattern side channel, formal security definitions |
 | `19-gaussian-laplace-perturbation.ipynb` | Gaussian perturbation (Rayleigh distribution) and planar Laplace geo-indistinguishability (Andrés et al. 2013); epsilon vs EDD; three-way comparison |
 | `20-baseline-comparison.ipynb` | Empirical comparison of seven geoprivacy mechanisms on EDD, AUC-L, spatial attack, and compound attack; privacy-utility frontier |
+| `21-research-synthesis.ipynb` | Capstone synthesis: contributions, limitations, differential privacy comparison, deployment considerations, open questions |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
 | `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |
@@ -149,7 +151,7 @@ stress-tested.
 | `data/houston_buildings.geojson` | 88,666 OSM building footprints for the seven-ZIP Houston study area (NB16) |
 | `data/houston_incidents_snapped.csv` | 925 one-row-per-incident synthetic respiratory records with LAT\_snapped, LON\_snapped, disp\_m columns (NB16) |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
-| `TODO.md` | Research roadmap: completion status NB00–NB19 and future extensions NB20+ |
+| `TODO.md` | Research roadmap: completion status NB00–NB21 and future extensions |
 | `environment.yml` | Conda environment specification |
 | `archive/` | Original prototype notebook (`map-encryption-v3-validated.ipynb`) |
 
@@ -317,5 +319,4 @@ Journal of Complexity, 91, 101970. https://doi.org/10.1016/j.jco.2025.101970
 
 Zhao, Y., Yuan, D., Du, J. T., & Chen, J. (2022). Geo-ellipse-indistinguishability: Community-aware location privacy protection for directional distribution.
 IEEE Transactions on Knowledge and Data Engineering. https://doi.org/10.1109/TKDE.2022.3192360
-
 

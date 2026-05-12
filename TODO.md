@@ -42,10 +42,10 @@ they fall short, motivating the full cryptographic pipeline.
 
 ## NB11 — DGGS and Advanced Spatial Binning *(done)*
 
-Replacing Web Mercator squares with equal-area hierarchical cells.
+Replacing Web Mercator squares with more globally regular hierarchical cells.
 
-- [x] 11.1 Why go beyond square tiles (Mercator distortion, unequal area, edge artifacts)
-- [x] 11.2 H3 resolution selection and equal-area comparison
+- [x] 11.1 Why go beyond square tiles (Mercator distortion, area variation, edge artifacts)
+- [x] 11.2 H3 resolution selection and cell-area regularity comparison
 - [x] 11.3 Encoding cholera data into H3 cells, Folium cell-boundary map
 - [x] 11.4 Multi-resolution privacy (res 7/8/9 nested at Broadwick Street pump)
 - [x] 11.5 PRP over H3 cell IDs via keyed PRF
@@ -185,7 +185,7 @@ used in NB20's baseline comparison.
 **Key findings:**
 - Laplace has heavier tails than Gaussian at same mean displacement (higher 95th-percentile)
 - Uniform jitter is hard-bounded at J*sqrt(2); Gaussian and Laplace are unbounded
-- Neither Gaussian nor Laplace destroys spatial clustering — both remain in Soho area
+- Neither Gaussian nor Laplace globally disperses spatial clustering in this demonstration — both remain in the Soho area
 - Planar Laplace provides formal epsilon-geo-indistinguishability guarantee; Gaussian does not
 
 ---
@@ -217,12 +217,21 @@ custom pipeline without empirical positioning against the established literature
 
 ---
 
-## NB21–NB22 — Further extensions *(ideas)*
+## NB21 — Research Synthesis *(done)*
+
+Capstone notebook synthesising the full NB01–NB20 arc.
+
+- [x] Contributions and boundaries of the PRP+AEAD+jitter framework
+- [x] Explicit distinction between cryptographic confidentiality, empirical attack resistance, and differential privacy
+- [x] Operational deployment considerations: key custody, access tiers, incident response, auditability
+- [x] Open attack surfaces and future research directions
+
+## NB22–NB23 — Further extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB21 | Differential privacy hybrids — combining planar Laplace (NB19) with the PRP+AEAD pipeline |
-| NB22 | Federated geospatial analytics |
+| NB22 | Differential privacy hybrids — combining planar Laplace (NB19) with the PRP+AEAD pipeline |
+| NB23 | Federated geospatial analytics |
 
 ---
 
