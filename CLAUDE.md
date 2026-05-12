@@ -8,13 +8,13 @@ for AI-assisted development of this repository.
 
 ## Project overview
 
-A seventeen-notebook computational geoprivacy research framework built around a
+A twenty-five-notebook computational geoprivacy research framework built around a
 four-step geographic coordinate encryption pipeline (Project → Snap+Shuffle →
 Lock → Wobble). The notebooks progress from cryptographic primitives (NB01–NB05)
 through a complete system (NB06–NB10), advanced spatial evaluation (NB11–NB13),
-dataset augmentation for three public health scenarios (NB14–NB16), and
-adversarial re-identification experiments (NB17). Future notebooks (NB18+) are
-planned in TODO.md.
+dataset augmentation for three public health scenarios (NB14–NB16), adversarial
+re-identification experiments and formal analysis (NB17–NB20), and capstone
+synthesis (NB21). Future extensions are tracked in TODO.md.
 
 All notebooks are self-contained and executable in order using the `crypto` conda
 environment defined in `environment.yml`.
@@ -35,7 +35,7 @@ geoprivacy/             Separate package — donut geomasking and hex-grid binni
   geomaskedpoint.py
   hexgrid.py
 data/                   CSV and GeoJSON datasets for all scenarios
-NN-title.ipynb          Notebooks numbered 01–17
+NN-title.ipynb          Notebooks numbered 00–21, including Module 0 variants
 environment.yml         Conda environment spec (Python 3.10, crypto env)
 NOTEBOOKS.md            Narrative guide and reading paths
 TODO.md                 Research roadmap with completion status
@@ -339,8 +339,8 @@ Target this at NB11–NB13 (DGGS, Ripley's K, Moran's I, KDE) and NB17 (k-anonym
 > (1) [Paste the Ripley's K / Moran's I / Getis-Ord Gi* interpretation text]
 >     — is the interpretation of the statistic correct? Are the distance parameters
 >     and spatial weight choices justified?
-> (2) [Paste the DGGS equal-area comparison] — is the equal-area claim for H3
->     resolution 9 accurate, and is the comparison with Web Mercator tiles fair?
+> (2) [Paste the DGGS cell-area regularity comparison] — is the H3 resolution 9
+>     area-regularity claim accurate, and is the comparison with Web Mercator tiles fair?
 > (3) [Paste the k-anonymity computation] — is the equivalence-class definition
 >     correct, and are the QI levels appropriate for the sensitivity of each dataset?
 >
@@ -508,7 +508,7 @@ or a prominent early markdown cell:
 
 Do not omit or abbreviate this statement when adding new scenario notebooks.
 
-**H3 equal-area claims** — H3 hexagonal cells are useful as a more globally
+**H3 cell-area claims** — H3 hexagonal cells are useful as a more globally
 regular index than Web Mercator square bins, but strict equal-area claims are
 contestable. Unless a notebook explicitly quantifies cell-area variation across
 the study area, use the phrase "more globally regular cell areas than Web Mercator

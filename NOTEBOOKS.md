@@ -1,6 +1,6 @@
 # Map Encryption Library — Notebook Guide
 
-This is a twenty-four-notebook series spanning a Module 0 on pre-cryptographic
+This is a twenty-five-notebook series spanning a Module 0 on pre-cryptographic
 geoprivacy approaches, the four-step geographic coordinate encryption pipeline
 implemented in `map_encryption/`, privacy evaluation, ethical analysis, DGGS
 alternative spatial indexing, augmented public health datasets, adversarial
@@ -34,7 +34,7 @@ Difficulty levels: **Intro** (no prior geoprivacy required) · **Intermediate** 
 | 08 | Evaluation: EDD, MNND, Cluster Fidelity | Privacy metric suite from Lin (2023), jitter sweep | Intermediate | Apply/Analyze | 05–06 |
 | 09 | ct_resid Externalization | Split storage architecture, AEAD-PRP mutual dependency | Intermediate | Analyze | 04–06 |
 | 10 | Ethical Perspectives on Geoprivacy | Six tensions, three public health scenarios, principle mapping | Intermediate | Analyze/Evaluate | 01–08 |
-| 11 | DGGS as Tile Identifiers | H3 hexagonal cells, equal-area advantage, multi-resolution privacy, adapted pipeline | Advanced | Analyze | 03–04 |
+| 11 | DGGS as Tile Identifiers | H3 hexagonal cells, more globally regular cell areas than Web Mercator bins, multi-resolution privacy, adapted pipeline | Advanced | Analyze | 03–04 |
 | 12 | Advanced Evaluation Part 1 | Ripley's K, Moran's I, Getis-Ord Gi* on original vs jitter-only vs full pipeline | Advanced | Analyze/Evaluate | 08 |
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | Advanced | Analyze/Evaluate | 12 |
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | Advanced | Apply/Analyze | 06–08 |
@@ -128,7 +128,7 @@ Closes with five concrete improvement directions and a reference list.
 Implements three metrics from Lin (2023): Expected Displacement Distance, Mean
 Nearest-Neighbour Distance, and DBSCAN cluster fidelity. Co-location jitter
 quality is measured on the cholera dataset; the privacy demonstration assigns
-deaths to their nearest pump and shows PRP destroys the cluster structure
+deaths to their nearest pump and shows PRP disperses the display-space cluster structure
 (171 deaths near Broadwick Street collapse to 0 DBSCAN clusters in display space).
 A jitter sweep shows EDD and MNND scale linearly with `jitter_max_frac`.
 
@@ -139,7 +139,8 @@ alone cannot decrypt `ct_resid` — `prp_key` is also required to build the corr
 Associated Data. Part 2 shows split storage in action using 10 real cholera
 death records: primary store (display fields) vs ct_resid vault (FID → ciphertext).
 Part 3 demonstrates that publishing `ct_resid` + `nonce` in a public API response
-is safe as long as keys are not exposed.
+does not expose the plaintext residual unless the required keys and associated data
+are also available.
 
 **10 — Ethical Perspectives on Geoprivacy**
 Translates the six core tensions from public health geoprivacy ethics into
@@ -157,8 +158,8 @@ locations to H3 resolution 9 cells (~201 m average edge), visualises cell
 boundaries on a Folium map, and demonstrates multi-resolution privacy (resolutions
 7–9 nested at Broadwick Street pump). Shows how a keyed PRF can shuffle 64-bit
 H3 cell IDs analogously to the current Feistel PRP, computes intra-cell residuals,
-and plots Web Mercator area distortion vs latitude to motivate the equal-area
-advantage of DGGS. Closes with a side-by-side comparison table and adapted
+and plots Web Mercator area distortion vs latitude to motivate the more globally
+regular cell-area behaviour of DGGS. Closes with a side-by-side comparison table and adapted
 pipeline description.
 
 **12 — Advanced Spatial Privacy Evaluation Part 1**
@@ -248,8 +249,9 @@ under jitter-only the attacker recovers the true snapped building with high succ
 for spread-out scenarios (Philadelphia 86.6 %, Houston 90.5 %) but lower success in
 dense Soho (cholera 10.0 %); the full pipeline collapses all three to ≈ 0 %. Part 3
 runs the compound geographic-proximity + QI attack with a 500 m radius: jitter-only
-allows 31.2 % (Philadelphia) and 47.7 % (Houston) unique matches; the full pipeline
-neutralises this attack entirely across all scenarios.
+allows 31.2 % (Philadelphia) and 47.7 % (Houston) unique matches; under this tested
+threat model, the full pipeline reduces this spatially grounded attack to 0 % across
+the three scenario datasets.
 
 **18 — Formal Threat Model**
 Formalises the informal threat model from NB07 by defining four adversary capability
@@ -284,8 +286,9 @@ fit and EDD vs 1/epsilon parameter sweep are shown. Part 3 compares all three
 perturbation approaches (uniform jitter, Gaussian, planar Laplace) at matched expected
 displacement, showing that Laplace has the heaviest tail (most extreme outliers at the
 same mean displacement). A summary table of EDD, median, 95th-percentile, and maximum
-displacement closes the notebook. Neither Gaussian nor Laplace destroys spatial
-clustering structure; both remain vulnerable to spatial re-identification attacks,
+displacement closes the notebook. Neither Gaussian nor Laplace globally disperses
+spatial clustering structure in these demonstrations; both remain vulnerable to the
+tested spatial re-identification attacks,
 as quantified in NB20.
 
 **20 — Baseline Comparison**
@@ -294,16 +297,17 @@ comparing it against six other mechanisms on the 489-individual Soho cholera dat
 Part 1 applies all seven mechanisms (uniform jitter +/-62.5 m, Gaussian sigma=45 m,
 Laplace scale=45 m, spatial cloaking k=15 NN centroid, H3 hex-grid at resolution 9,
 donut geomasking 50-125 m, full PRP+AEAD+jitter pipeline) and tabulates EDD per
-mechanism (Table 19a). Part 2 computes EDD and AUC-L clustering preservation ratio;
+mechanism (Table 20a). Part 2 computes EDD and AUC-L clustering preservation ratio;
 H3 and spatial cloaking show AUC-L ratios above 100% due to point-mass collapse,
 while the full pipeline reports 0% because display coordinates are globally dispersed.
 Part 3 runs the nearest-record spatial attack and compound proximity+QI attack from
 NB17; perturbation-based mechanisms remain vulnerable (40-80% spatial attack success)
 because they stay geographically near the original study area. Part 4 presents a
-four-metric summary table (Table 19b) and a privacy-utility frontier scatter
-(Figure 19e): the full pipeline achieves ~0% attack success at ~35 m EDD, matching
-the utility of uniform jitter while providing the privacy of a globally randomising
-scheme. The main limitation is access-pattern leakage (tile frequencies are
+four-metric summary table (Table 20b) and a privacy-utility frontier scatter
+(Figure 20e): the full pipeline achieves ~0% attack success under the tested
+spatial and compound attacks at ~35 m EDD, matching the displacement utility of
+uniform jitter while providing display coordinates that are globally dispersed under
+the current PRP domain policy. The main limitation is access-pattern leakage (tile frequencies are
 deterministic and observable without keys, as formalised in NB18).
 
 ## Reading Paths
