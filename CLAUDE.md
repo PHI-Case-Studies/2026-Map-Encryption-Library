@@ -174,7 +174,7 @@ inline documentation in generated cell source.
 
 ## Visualisation conventions
 
-**No Plotly.** All charts use matplotlib/seaborn. Plotly 6.x is incompatible
+**No Plotly unless explicity requested.** All charts use matplotlib/seaborn. Plotly 6.x is incompatible
 with the JupyterLab extension bundled on conda-forge (max version 1.0.0).
 
 **Colour palette for scenarios:**
@@ -186,7 +186,7 @@ with the JupyterLab extension bundled on conda-forge (max version 1.0.0).
 - Jitter-only: `#ff7f0e` (orange)
 - Full pipeline: `#2ca02c` (green)
 
-**Maps:** Use `folium` with `cartodbpositron` tiles (not the default OpenStreetMap).
+**Maps:** Use `folium` with `cartodbpositron` tiles (not the default OpenStreetMap). Use layers and layer control to enable incremental visualization of artifacts. Add fullscreen feature to enable full screen view of map. 
 
 **Shared helpers** in `map_encryption/viz.py`:
 - `plot_demographic_bar(acs, title, annotation_x, figsize)` — horizontal grouped
