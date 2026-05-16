@@ -5,9 +5,11 @@ hides both tile identity (via a Feistel PRP) and sub-tile precision (via
 ChaCha20-Poly1305 AEAD), while enabling a display tier to render jittered
 map pins without ever decrypting precise GPS coordinates.
 
-All spatial examples use the **1854 Soho cholera outbreak dataset** (John Snow):
-250 death locations and 8 water pump locations from `data/cholera_deaths.csv`
-and `data/pumps.csv`.
+The core pipeline is introduced using the **1854 Soho cholera outbreak dataset**
+(John Snow): 250 death locations and 8 water pump locations from
+`data/cholera_deaths.csv` and `data/pumps.csv`. Later scenario notebooks extend
+the same methods to synthetic public-health datasets for substance-use (NB15)
+and tuberculosis (NB16) privacy-risk demonstrations.
 
 ## Intended Audience
 
