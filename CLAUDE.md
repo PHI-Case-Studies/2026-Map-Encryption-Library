@@ -101,8 +101,8 @@ Suffix `_cap` for caption cells, `_title` for the title cell, `_hdr` for
 section header cells that are not part of the main sequence.
 
 ### Subplot titles
-Use the **health condition** (Cholera, Drug Overdose, Respiratory / Environmental),
-never the place name (Philadelphia, Houston). This applies to `ax.set_title()`,
+Use the **health condition** (Cholera, Drug Overdose, Tuberculosis),
+never the place name (Philadelphia, Old Naledi). This applies to `ax.set_title()`,
 `ax.set_xticklabels()`, and any Scenario column in a table.
 
 ---
@@ -485,7 +485,7 @@ a data provenance section at the end of the notebook, following NB14's format.
 **Scenario labels** — use health condition names, not place names, in all
 figure titles, subplot headings, table Scenario columns, and x-axis tick labels.
 The mapping is: Cholera → Cholera, Philadelphia → Drug Overdose,
-Houston → Respiratory / Environmental.
+Old Naledi → Tuberculosis.
 
 **Overpass API caching** — NB14, NB15, NB16 fetch OSM building footprints via
 the Overpass API and cache results to `data/*.geojson`. If the cache file exists,

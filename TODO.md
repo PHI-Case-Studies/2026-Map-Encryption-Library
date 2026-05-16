@@ -114,8 +114,7 @@ Parallels NB14 but for a stigmatised population with equity analysis.
 ## NB16 — Data Setup: Tuberculosis Scenario *(done)*
 
 Old Naledi, Gaborone, Botswana — Kopanyo Programme TB data (2013–2015).
-Replaces the Houston environmental scenario with a global-health case study
-demonstrating privacy-utility calibration at settlement scale.
+A global-health case study demonstrating privacy-utility calibration at settlement scale.
 
 - [x] OSM building footprints for Old Naledi neighbourhood, Gaborone (Overpass API)
 - [x] Folium map of building footprints (Figure 16a)
