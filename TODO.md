@@ -8,7 +8,7 @@
 | Core mechanisms | NB01–NB05 | Projection, quantisation, PRP, AEAD, jitter |
 | System implications | NB06–NB10 | Full pipeline, security, evaluation, split storage, ethics |
 | Research extensions | NB11–NB13 | Advanced geospatial architecture and evaluation |
-| Scenario datasets | NB14–NB16 | Cholera augmentation, Philadelphia, Houston |
+| Scenario datasets | NB14–NB16 | Cholera augmentation, Philadelphia overdose, Old Naledi TB |
 | Adversarial + formal | NB17–NB20 | Re-ID attacks, formal threat model, Gaussian/Laplace mechanisms, baseline comparison |
 
 NB01–NB10 form a coherent minimal complete system. NB11 onward are
@@ -111,23 +111,24 @@ Parallels NB14 but for a stigmatised population with equity analysis.
 
 ---
 
-## NB16 — Data Setup: Environmental Scenario *(done)*
+## NB16 — Data Setup: Tuberculosis Scenario *(done)*
 
-Houston Ship Channel — TRI industrial facilities + residential proximity.
+Old Naledi, Gaborone, Botswana — Kopanyo Programme TB data (2013–2015).
+Replaces the Houston environmental scenario with a global-health case study
+demonstrating privacy-utility calibration at settlement scale.
 
-- [x] Curated TRI 2022 dataset: 18 major Ship Channel facilities with coordinates
-- [x] 7 target ZIP codes: 77011, 77012, 77015, 77020, 77023, 77026, 77029
-- [x] OSM building footprints for study area (88,666 polygons via Overpass)
-- [x] Synthetic respiratory/asthma/cardiovascular incident dataset (925 records)
-      parameterised from Texas DSHS and Harris County Public Health data
-- [x] Spatial snapping to buildings (797/925 moved; median 17.9 m, max 1,071.2 m)
-- [x] ACS 2022 demographics (B01003/B02001/B03003/B17001/B19013 for 7 ZIPs)
-- [x] Figure 16a: TRI facility locations + incident distribution (Folium)
-- [x] Figure 16c: racial/ethnic composition + poverty bar chart (seaborn)
-- [x] Table 16a: demographics by ZIP (Plotly CDN)
+- [x] OSM building footprints for Old Naledi neighbourhood, Gaborone (Overpass API)
+- [x] Folium map of building footprints (Figure 16a)
+- [x] Synthetic TB dataset: 305 records parameterised from Kopanyo Programme 2013–2015
+      (cumulative incidence 799.2/100k; HIV co-infection 62.7%; seasonal onset curve)
+- [x] Synthetic demographics: age/sex from Botswana 2022 census distributions,
+      hiv_status at Kopanyo rates, onset_date from seasonal curve
+- [x] Population-weighted spatial snapping: buildings weighted by floor area as
+      household-density proxy; median displacement documented
+- [x] Part 4: extent-derived SchemeParams (~2.55 km diagonal → proportionate bin size)
 
-**Data files:** `data/houston_zipcodes.geojson`, `data/houston_buildings.geojson`,
-`data/houston_incidents_snapped.csv`
+**Data files:** `data/old_naledi_buildings.geojson`, `data/old_naledi_tb_snapped.csv`,
+`data/old_naledi_age_sex.csv`
 
 ---
 
@@ -142,9 +143,11 @@ Three re-identification attacks across all three public health scenarios.
 - [x] 17.5 Compound geographic-proximity + QI attack; Figure 17c
 - [x] 17.6 Attack summary table (Table 17b) and conclusions
 
-**Key findings:** Full pipeline reduces spatial re-ID from 10–90 % (jitter-only) to ≈ 0 %;
-compound attack from 31–48 % (jitter-only) to ≈ 0 %; QI-only attack unchanged (pipeline
-does not encrypt metadata — requires separate QI generalisation).
+**Key findings:** Full pipeline reduces spatial re-ID from 10–87 % (jitter-only) to ≈ 0 %;
+compound attack from 31 % (Philadelphia jitter-only; Cholera and Old Naledi already 0 % due
+to density) to 0 %; QI-only attack unchanged (pipeline does not encrypt metadata — requires
+separate QI generalisation). Old Naledi jitter-only spatial success (34.8 %) is moderate
+due to high settlement density compared with Philadelphia (86.6 %).
 
 ---
 
@@ -226,12 +229,30 @@ Capstone notebook synthesising the full NB01–NB20 arc.
 - [x] Operational deployment considerations: key custody, access tiers, incident response, auditability
 - [x] Open attack surfaces and future research directions
 
-## NB22–NB23 — Further extensions *(ideas)*
+## NB22 — Privacy, Utility, and Adoption *(done)*
+
+Complexity as a third dimension; better-than-nothing baseline; seven-mechanism
+complexity rubric; three-axis deployment guidance; open questions extended.
+
+- [x] Part 1: Better-than-nothing baseline (no-protection vs. protection gradient)
+- [x] Part 2: Complexity scoring table (implementation effort, key management,
+      infrastructure dependency, auditability) for all seven NB20 mechanisms
+- [x] Part 3: Three-axis view — mechanism positions and deployment tier guidance
+- [x] Part 4: Six open questions (five from NB21.7 + adoption/complexity question)
+- [x] Part 5: Future directions including managed key service and empirical adoption study
+- [x] References: Hampton 2010, Keßler & McKenzie 2018, Kounadi & Resch 2018,
+      Li 2025, npj Digital Medicine 2025, Sharma et al. 2025, Andrés et al. 2013, Lin 2023
+
+**NB21 also simplified:** Parts 4–7 compressed (3 tables → 1 summary, prose → table,
+future directions updated for NB22/NB23 renumbering, open questions → summary table
+pointing to NB22). Three new references added to NB21.
+
+## NB23–NB24 — Further extensions *(ideas)*
 
 | Notebook | Topic |
 |----------|-------|
-| NB22 | Differential privacy hybrids — combining planar Laplace (NB19) with the PRP+AEAD pipeline |
-| NB23 | Federated geospatial analytics |
+| NB23 | Differential privacy hybrids — combining planar Laplace (NB19) with the PRP+AEAD pipeline |
+| NB24 | Federated geospatial analytics |
 
 ---
 

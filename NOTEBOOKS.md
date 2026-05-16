@@ -39,12 +39,13 @@ Difficulty levels: **Intro** (no prior geoprivacy required) · **Intermediate** 
 | 13 | Advanced Evaluation Part 2 | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases | Advanced | Analyze/Evaluate | 12 |
 | 14 | Cholera Dataset Augmentation | Building footprints (OSM proxy), spatial snapping, synthetic demographics; full data provenance notes | Advanced | Apply/Analyze | 06–08 |
 | 15 | Data Setup: Substance Use Scenario | Synthetic Philadelphia overdose dataset; OSM building footprints; spatial snapping; ACS 2022 demographic context | Advanced | Apply/Analyze | 06, 10, 14 |
-| 16 | Data Setup: Environmental Scenario | Curated TRI 2022 facilities; synthetic respiratory incidents; OSM building footprints; spatial snapping; ACS 2022 demographic context | Advanced | Apply/Analyze | 06, 10, 14 |
+| 16 | Data Setup: Tuberculosis Scenario | OSM building footprints for Old Naledi, Gaborone; 305 synthetic TB records (Kopanyo 2013–2015); population-weighted spatial snapping; extent-derived SchemeParams | Advanced | Apply/Analyze | 06, 10, 14 |
 | 17 | Adversarial Experiments | QI-only, nearest-record spatial, and compound geographic+QI attacks across all three scenarios; jitter-only vs full pipeline | Research | Evaluate | 14–16 |
 | 18 | Formal Threat Model | Adversary capability tiers, trust boundaries, key access/leakage channels, access-pattern side channel, formal security definitions | Research | Evaluate/Create | 04–09 |
 | 19 | Gaussian and Laplace Mechanisms | Gaussian perturbation (Rayleigh displacement), planar Laplace geo-indistinguishability (Andrés et al. 2013), epsilon vs EDD, three-way comparison | Research | Analyze/Evaluate | 05 |
 | 20 | Baseline Comparison | Seven mechanisms (uniform jitter, Gaussian, Laplace, spatial cloaking, H3 hex-grid, donut geomasking, full pipeline) on EDD, AUC-L, spatial attack, compound attack | Research | Evaluate | 08, 12–13, 17, 19 |
-| 21 | Research Synthesis | Contributions, limitations, DP comparison, operational deployment, unresolved gaps, future directions, open questions | Research | Evaluate/Create | 01–20 |
+| 21 | Research Synthesis | Contributions, limitations, DP comparison, condensed operational deployment, unresolved gaps, future directions, open questions summary | Research | Evaluate/Create | 01–20 |
+| 22 | Privacy, Utility, and Adoption | Complexity as a third axis; better-than-nothing baseline; seven-mechanism complexity rubric; three-axis deployment guidance; open questions extended | Research | Evaluate/Create | 20–21 |
 
 ## Per-Notebook Descriptions
 
@@ -220,38 +221,39 @@ for all six ZIP codes (B01003, B02001, B03003, B17001, B19013) and presents
 racial/ethnic composition and poverty rates (Figure 15c, Table 15a): all six
 ZIPs are majority-minority with poverty rates between 28 % and 40 %.
 
-**16 — Data Setup: Environmental Scenario**
-Constructs the three-layer research dataset for Houston Ship Channel environmental
-burden data (Scenario C from NB10). Part 1 embeds a curated TRI 2022 facility dataset
-(18 major facilities, coordinates from EPA TRI geocoding) and generates a synthetic
-dataset of 925 respiratory/cardiovascular emergency visits across seven Ship Channel
-ZIP codes (2022), parameterised from Texas DSHS environmental public health tracking
-data; maps incident distribution and facility locations by chemical class (Figure 16a).
-Part 2 fetches OSM building footprints for the seven-ZIP study area (88,666 polygons)
-via the Overpass API and snaps all 925 synthetic incident points to the nearest
-building interior using Shapely `nearest_points` (median displacement 17.9 m,
-max 1,071.2 m); outputs `data/houston_buildings.geojson` and
-`data/houston_incidents_snapped.csv`. Part 3 retrieves 2022 ACS 5-year estimates
-for all seven ZIP codes (B01003, B02001, B03003, B17001, B19013) and presents
-racial/ethnic composition and poverty rates (Figure 16c, Table 16a): all seven
-ZIPs are majority-Hispanic environmental-justice communities with poverty rates
-between 18 % and 32 %.
+**16 — Data Setup: Tuberculosis Scenario**
+Constructs the synthetic tuberculosis (TB) dataset used in NB17 as Scenario C.
+Old Naledi is a high-density residential neighbourhood in Gaborone, Botswana
+(population ~20,330; ~14,800 persons/km²) with the highest TB cumulative incidence
+in the Gaborone study area (Kopanyo Programme, 2013–2015). The scenario demonstrates
+how settlement scale, infectious-disease stigma, and HIV co-infection jointly shape the
+privacy-utility calibration decision. Part 1 fetches OSM building footprints for Old
+Naledi (Overpass API) and renders them on a Folium map (Figure 16a). Part 2 generates
+305 synthetic TB records parameterised from Kopanyo 2013–2015 data: age and sex from
+census distributions, HIV co-infection status at 62.7 % (Kopanyo rate), onset date
+from a seasonal incidence curve. Part 3 applies population-weighted spatial snapping —
+buildings are weighted by floor area as a proxy for household density — assigning each
+record to a building interior; outputs `data/old_naledi_buildings.geojson` and
+`data/old_naledi_tb_snapped.csv`. Part 4 derives SchemeParams from the settlement
+extent (~2.55 km diagonal) rather than a fixed absolute distance, producing
+privacy bins proportionate to the study-area scale.
 
 **17 — Adversarial Experiments**
 Runs three classes of re-identification attack against the three public health scenario
-datasets (cholera, Philadelphia overdose, Houston environmental), comparing jitter-only
+datasets (cholera, Philadelphia overdose, Old Naledi TB), comparing jitter-only
 geomasking with the full encryption pipeline. Part 1 measures k-anonymity under
 progressively finer quasi-identifier subsets (sex/age/date for cholera;
-ZIP/substance/age for Philadelphia; ZIP/symptom/age for Houston), finding that fine QI
-combinations already create k = 1 records independently of location (cholera 12.3 %,
-Philadelphia 4.5 %, Houston 1.5 %). Part 2 runs the nearest-record spatial attack:
-under jitter-only the attacker recovers the true snapped building with high success
-for spread-out scenarios (Philadelphia 86.6 %, Houston 90.5 %) but lower success in
-dense Soho (cholera 10.0 %); the full pipeline collapses all three to ≈ 0 %. Part 3
-runs the compound geographic-proximity + QI attack with a 500 m radius: jitter-only
-allows 31.2 % (Philadelphia) and 47.7 % (Houston) unique matches; under this tested
-threat model, the full pipeline reduces this spatially grounded attack to 0 % across
-the three scenario datasets.
+ZIP/substance/age for Philadelphia; age/sex/HIV status for Old Naledi), finding that
+fine QI combinations already create k = 1 records independently of location. Part 2
+runs the nearest-record spatial attack: under jitter-only success reflects building
+density — high in spread-out Philadelphia (Drug Overdose 86.6 %), moderate in compact
+Old Naledi (Tuberculosis 34.8 %, where ~14,800 persons/km² places many buildings within
+the jitter radius), and lowest in dense Soho (Cholera 10.0 %); the full pipeline
+collapses all three to ≈ 0 %. Part 3 runs the compound geographic-proximity + QI
+attack with a 500 m radius: jitter-only allows 31.2 % unique matches for Philadelphia;
+both Cholera and Old Naledi yield 0 % even under jitter-only because QI combinations
+are not sparse enough to uniquely identify records within any 500 m neighbourhood;
+under this tested threat model, the full pipeline reduces all three datasets to 0 %.
 
 **18 — Formal Threat Model**
 Formalises the informal threat model from NB07 by defining four adversary capability
@@ -310,9 +312,27 @@ uniform jitter while providing display coordinates that are globally dispersed u
 the current PRP domain policy. The main limitation is access-pattern leakage (tile frequencies are
 deterministic and observable without keys, as formalised in NB18).
 
+**22 — Privacy, Utility, and Adoption**
+Extends the NB20 baseline comparison with a third evaluation axis: implementation
+complexity. Part 1 establishes the better-than-nothing baseline — any evaluated
+mechanism reduces the nearest-record spatial attack from ~100 % (no protection) to
+under 10 % — and introduces the adoption-weighted argument: a simpler mechanism
+deployed universally may provide more aggregate privacy protection than a
+sophisticated one deployed rarely. Part 2 scores all seven NB20 mechanisms on four
+complexity sub-dimensions (implementation effort, key management, infrastructure
+dependency, auditability) and assigns Low / Medium / High overall ratings. Part 3
+maps each mechanism's position in the three-axis privacy-utility-complexity space and
+gives deployment guidance for three practitioner tiers (no infrastructure, regulatory
+compliance required, full key infrastructure available). Part 4 develops the five open
+questions from NB21.7 with additional context and adds a sixth question about whether
+complexity sub-dimensions empirically predict non-adoption. Part 5 outlines future
+directions including a managed key service, an empirical adoption study, and NB23
+(DP hybrids). References: Hampton et al. (2010), Keßler and McKenzie (2018), Kounadi
+and Resch (2018), Li (2025), npj Digital Medicine (2025), Sharma et al. (2025).
+
 ## Reading Paths
 
-**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20
+**Sequential (full course):** 00 → 00a → 00b → 00c → 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 09 → 10 → 11 → 12 → 13 → 14 → 15 → 16 → 17 → 18 → 19 → 20 → 21 → 22
 
 **Minimal core (self-contained executable paper):** 01 → 02 → 03 → 04 → 05 → 06 → 07 → 08 → 10
 NB01–NB10 form the minimal complete system. Each notebook is self-contained and
@@ -343,10 +363,15 @@ the privacy–utility frontier (NB13).
 **Data augmentation readers:** 14 → 15 → 16
 Dataset construction pattern: building footprints, spatial snapping, and
 demographic enrichment for cholera (NB14), Philadelphia substance use (NB15),
-and Houston environmental burden (NB16).
+and Old Naledi tuberculosis burden (NB16).
 
 **Adversarial / security readers:** 07 → 17 → 18 → 19 → 20
 Threat model and limitations (NB07), empirical re-identification experiments
 (NB17), formal adversary capability tiers and security definitions (NB18),
 Gaussian and Laplace mechanism demonstrations (NB19), and comparative
 positioning against seven geoprivacy mechanisms (NB20).
+
+**Practitioners / policy readers:** 20 → 21 → 22
+Baseline mechanism comparison (NB20), research synthesis and limitations (NB21),
+and the adoption-focused discussion of complexity as a third axis with deployment
+guidance and open questions (NB22).

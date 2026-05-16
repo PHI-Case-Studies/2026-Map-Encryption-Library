@@ -133,12 +133,13 @@ stress-tested.
 | `13-advanced-evaluation-part2.ipynb` | KDE fidelity, multi-scale K sweep, privacy–utility frontier, failure cases |
 | `14-cholera-dataset-augmentation.ipynb` | Building footprints, spatial snapping, synthetic demographics; full data provenance and sources |
 | `15-substance-use-scenario.ipynb` | Synthetic Philadelphia overdose dataset; OSM building footprints + spatial snapping; ACS 2022 demographic context for six ZIP codes |
-| `16-houston-environmental-scenario.ipynb` | Curated TRI 2022 facility dataset; synthetic respiratory incidents; OSM building footprints + spatial snapping; ACS 2022 demographic context for seven Houston Ship Channel ZIP codes |
+| `16-old-naledi-tb-scenario.ipynb` | OSM building footprints for Old Naledi, Gaborone; 305 synthetic TB records parameterised from the Kopanyo Programme 2013–2015; population-weighted spatial snapping to building interiors; extent-derived SchemeParams for small-settlement context |
 | `17-adversarial-experiments.ipynb` | QI-only, nearest-record spatial, and compound geographic+QI re-identification attacks across all three scenarios; jitter-only vs full pipeline |
 | `18-formal-threat-model.ipynb` | Four adversary capability tiers, trust boundaries, AEAD-PRP key dependency demo, access-pattern side channel, formal security definitions |
 | `19-gaussian-laplace-perturbation.ipynb` | Gaussian perturbation (Rayleigh distribution) and planar Laplace geo-indistinguishability (Andrés et al. 2013); epsilon vs EDD; three-way comparison |
 | `20-baseline-comparison.ipynb` | Empirical comparison of seven geoprivacy mechanisms on EDD, AUC-L, spatial attack, and compound attack; privacy-utility frontier |
-| `21-research-synthesis.ipynb` | Capstone synthesis: contributions, limitations, differential privacy comparison, deployment considerations, open questions |
+| `21-research-synthesis.ipynb` | Capstone synthesis: contributions, limitations, differential privacy comparison, condensed deployment considerations, open questions summary |
+| `22-privacy-utility-adoption.ipynb` | Complexity as a third evaluation axis; better-than-nothing baseline; seven-mechanism complexity rubric; three-axis deployment guidance; open questions extended with adoption barrier question |
 | `data/cholera_deaths.csv` | 250 death locations from the 1854 Soho outbreak (John Snow) |
 | `data/cholera_deaths_snapped.csv` | 250 death locations with 131 street-side points snapped to nearest building interior (≤10 m displacement) |
 | `data/cholera_deaths_individual.csv` | 489 one-row-per-death records with synthetic date_of_death (Snow 1855 daily distribution), age (Farr 1854 Registrar General), and sex |
@@ -147,9 +148,9 @@ stress-tested.
 | `data/phila_zipcodes.geojson` | 48 Philadelphia ZIP code polygons from OpenDataPhilly (used in NB15) |
 | `data/phila_buildings.geojson` | 108,183 OSM building footprints for the six-ZIP Philadelphia study area (NB15) |
 | `data/phila_overdose_snapped.csv` | 516 one-row-per-incident synthetic overdose records with LAT\_snapped, LON\_snapped, disp\_m columns (NB15) |
-| `data/houston_zipcodes.geojson` | Census TIGER/Line ZCTA boundaries for the seven Houston Ship Channel ZIP codes (NB16) |
-| `data/houston_buildings.geojson` | 88,666 OSM building footprints for the seven-ZIP Houston study area (NB16) |
-| `data/houston_incidents_snapped.csv` | 925 one-row-per-incident synthetic respiratory records with LAT\_snapped, LON\_snapped, disp\_m columns (NB16) |
+| `data/old_naledi_buildings.geojson` | OSM building footprints for the Old Naledi neighbourhood, Gaborone, Botswana (NB16) |
+| `data/old_naledi_tb_snapped.csv` | 305 synthetic TB records with population-weighted snapping; LAT\_snapped, LON\_snapped, disp\_m, age, sex, hiv\_status columns (NB16) |
+| `data/old_naledi_age_sex.csv` | Demographic configuration parameters for the Old Naledi TB synthetic dataset (NB16) |
 | `NOTEBOOKS.md` | Narrative guide, reading paths, per-notebook descriptions |
 | `TODO.md` | Research roadmap: completion status NB00–NB21 and future extensions |
 | `environment.yml` | Conda environment specification |
